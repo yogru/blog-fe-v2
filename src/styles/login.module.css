@@ -1,0 +1,13 @@
+.background {
+    position: relative;
+    min-height: 100vh;
+    background-image: url("/images/login-bg.jpg");
+    display: flex;
+}
+
+.overlay {
+    width: 450px;
+    height: 450px;
+    margin: auto;
+    background-color: white;
+}
