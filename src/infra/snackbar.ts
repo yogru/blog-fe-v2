@@ -1,5 +1,4 @@
 import {EnqueueSnackbar, OptionsObject} from "notistack";
-import {FailException} from "@/infra/errors";
 
 export const FAIL_TOP_MIDDLE_OPTION: OptionsObject = {
     variant: 'error',
