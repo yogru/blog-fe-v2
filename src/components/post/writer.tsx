@@ -1,4 +1,5 @@
 'use client'
+
 import React from "react";
 import ToastEditor from "@/components/toast/editor";
 
@@ -11,11 +12,9 @@ export default function PostWriter(props: Props) {
     return (
         <div className={'w-screen flex flex-col pt-16 pl-36 pr-36'}>
             <div className={'flex mb-4 w-full'}>
-                <div>
-                    <button className={'rounded-full'}>
-                        작성 하기
-                    </button>
-                </div>
+                <button className={'block w-full bg-indigo-600 text-sky-400'}>
+                    작성 하기 1
+                </button>
             </div>
 
             <div className={'flex mb-4 w-full'}>

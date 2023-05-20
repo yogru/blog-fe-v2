@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
@@ -58,7 +58,7 @@ export default function ToastEditor(props: Props) {
                     usageStatistics={false}
                     toolbarItems={toolbarItems}
                     useCommandShortcut={true}
-                    plugins={[colorSyntax]}
+                    // plugins={[colorSyntax]}
                     hooks={{addImageBlobHook}}
                 />
             )}
