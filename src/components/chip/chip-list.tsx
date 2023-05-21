@@ -1,4 +1,4 @@
-import {ViewItem} from "@/domain/infra/generic-view-type";
+import {ViewItem} from "@/infra/generic-view-type";
 import ChipItem from "@/components/chip/chip-item";
 import {useCallback, useEffect} from "react";
 

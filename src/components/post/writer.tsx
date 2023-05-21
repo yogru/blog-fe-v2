@@ -2,7 +2,7 @@
 
 import React from "react";
 import ToastEditor from "@/components/toast/editor";
-import {ViewItem, ViewResponse} from "@/domain/infra/generic-view-type";
+import {ViewItem, ViewResponse} from "@/infra/generic-view-type";
 import ChipEditor from "@/components/chip/chip-editor";
 
 type Props = {

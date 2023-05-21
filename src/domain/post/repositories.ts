@@ -11,6 +11,19 @@ export class PostRepository extends Repository {
         }
         throw new Error("존재 하지 않는 게시물")
     }
+
+
+    public async addTag(tag: string, accessKey: string) {
+        const url = this.getBaseUrl() + "/post/tag";
+        return restCall.post(url, {tag}, {accessKey})
+    }
+
+    public async deleteTag(tag: string, accessKey: string) {
+        const url = this.getBaseUrl() + "/post/tag?name=" + tag;
+        return restCall.delete(url, {accessKey})
+    }
+
+
 }
 
 const postRepository = new PostRepository()

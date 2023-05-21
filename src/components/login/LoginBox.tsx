@@ -1,12 +1,18 @@
 "use client"
 
 import {useState} from "react";
-import {useLogin} from "@/domain/user/hooks";
+import {ViewResponse} from "@/infra/generic-view-type";
 
-export default function LoginBox() {
+export type Props = {
+    onLogin: (email: string, password: string) => Promise<ViewResponse>
+    onSuccessLogin: () => Promise<void>
+    onFailLogin: (message: string) => Promise<void>
+}
+
+
+export default function LoginBox(props: Props) {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const login = useLogin()
 
     function onChangeEmail(e: any) {
         setEmail(e.target.value)
@@ -17,7 +23,9 @@ export default function LoginBox() {
     }
 
     async function onClickSignIn() {
-        await login(email, password)
+        const viewResponse = await props.onLogin(email, password)
+        viewResponse.success && await props.onSuccessLogin()
+        !viewResponse.success && await props.onFailLogin(viewResponse.errorMessage!!)
     }
 
     return (

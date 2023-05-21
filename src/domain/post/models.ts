@@ -3,9 +3,7 @@ class PostUser {
         public readonly writerName: String,
         public readonly writerEmail: String
     ) {}
-
 }
-
 
 class PostModel {
     constructor(
@@ -19,5 +17,4 @@ class PostModel {
         public readonly tags: string [],
         public readonly deleted: boolean
     ) {}
-
 }
