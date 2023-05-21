@@ -4,12 +4,12 @@ import postRepository from "@/domain/post/repositories";
 
 import {useAccessKey} from "@/domain/user/hooks";
 
-export function useTagRepository() {
+export function useTagService() {
     const {accessKey, isValid} = useAccessKey()
 
     const addTag = useCallback(async (chip: ViewItem) => {
         if (!isValid) return {success: false, errorMessage: "로그인 확인"} as ViewResponse
-        const res = await postRepository.addTag(chip.id, accessKey)
+        const res = await postRepository.addTag(chip.viewValue, accessKey)
         return {
             success: res.ok,
             errorMessage: res.message

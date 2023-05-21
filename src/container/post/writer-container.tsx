@@ -1,10 +1,10 @@
 "use client";
 
 import PostWriter from "@/components/post/writer";
-import {useTagRepository} from "@/domain/post/hooks";
+import {useTagService} from "@/domain/post/hooks";
 
 export default function PostWriterContainer() {
-    const {addTag,deleteTag} = useTagRepository();
+    const {addTag,deleteTag} = useTagService();
     return (
         <PostWriter onAddChip={addTag} onDeleteChip={deleteTag}/>
     )
