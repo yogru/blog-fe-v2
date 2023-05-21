@@ -1,5 +1,5 @@
 import {ViewItem, ViewResponse} from "@/domain/infra/generic-view-type";
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {useSnackbar} from "notistack";
 import {FAIL_TOP_MIDDLE_OPTION} from "@/infra/snackbar";
 import ChipList from "@/components/chip/chip-list";

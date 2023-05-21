@@ -1,4 +1,3 @@
-import env from "@/infra/env";
 import Repository from "@/domain/infra/repository";
 import restCall from "@/infra/rest-call";
 
