@@ -20,7 +20,6 @@ export default function ChipList(props: Props) {
         props.onChangeChips?.(chips)
     }, [chips])
 
-
     const handleDeleteChip = useCallback(async (chipId: string) => {
         await props.onDeleteChip?.(chipId)
     }, [props.chips])

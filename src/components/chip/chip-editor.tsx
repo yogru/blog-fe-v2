@@ -31,8 +31,8 @@ export type Props = {
     initChips: ViewItem []
     onAddChip: (chip: ViewItem) => Promise<AddChipAction>
     onDeleteChip: (chipId: string) => Promise<DeleteChipAction>
+    onChangeChips: (chips: ViewItem[]) => void
 }
-
 
 function changeInput(state: State, action: Action): State {
     if (action.type !== "changeInput") return state
@@ -91,11 +91,13 @@ export default function ChipEditor(props: Props) {
         if (event.key !== 'Enter') return
         const action = await props.onAddChip({id: state.inputString, viewValue: state.inputString})
         dispatch(action)
+        action.success && props.onChangeChips(state.chips)
     }
 
     async function handleDeleteChip(chipId: string) {
         const action = await props.onDeleteChip(chipId)
         dispatch(action)
+        action.success && props.onChangeChips(state.chips)
     }
 
     return (
