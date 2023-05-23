@@ -2,12 +2,12 @@
 
 import React from "react";
 import ToastEditor from "@/components/toast/editor";
-import {ViewItem, ViewResponse} from "@/infra/generic-view-type";
-import ChipEditor from "@/components/chip/chip-editor";
+import {ViewItem} from "@/infra/generic-view-type";
+import ChipEditor, {AddChipAction, DeleteChipAction} from "@/components/chip/chip-editor";
 
 type Props = {
-    onAddChip: (chip: ViewItem) => Promise<ViewResponse>
-    onDeleteChip: (chipId: string) => Promise<ViewResponse>
+    onAddChip: (chip: ViewItem) => Promise<AddChipAction>
+    onDeleteChip: (chipId: string) => Promise<DeleteChipAction>
 }
 const root: string = 'w-screen flex flex-col pt-16 pl-36 pr-36'
 const item: string = 'flex mb-4 w-full'
@@ -16,7 +16,6 @@ const title: string = 'rounded w-full h-12 border-2 p-4'
 
 export default function PostWriter(props: Props) {
     const ref = React.useRef<any>(null);
-
     return (
         <div className={root}>
             <div className={item}>
@@ -24,7 +23,10 @@ export default function PostWriter(props: Props) {
             </div>
 
             <div className={item}>
-                <ChipEditor initChips={[]} onAddChip={props.onAddChip} onDeleteChip={props.onDeleteChip}/>
+                <ChipEditor
+                    initChips={[]}
+                    onAddChip={props.onAddChip}
+                    onDeleteChip={props.onDeleteChip}/>
             </div>
 
             <div className={item}>

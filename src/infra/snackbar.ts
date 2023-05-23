@@ -8,11 +8,3 @@ export const FAIL_TOP_MIDDLE_OPTION: OptionsObject = {
     }
 }
 
-
-export function catchErrorToSnackbar(e: unknown, enq: EnqueueSnackbar, opt: OptionsObject = FAIL_TOP_MIDDLE_OPTION) {
-    // @ts-ignore
-    if (e && e.message) {
-        // @ts-ignore
-        enq(e.message, opt)
-    }
-}

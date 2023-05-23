@@ -1,63 +1,116 @@
 import {ViewItem, ViewResponse} from "@/infra/generic-view-type";
-import React, { useState} from "react";
-import {useSnackbar} from "notistack";
-import {FAIL_TOP_MIDDLE_OPTION} from "@/infra/snackbar";
+import React, {useState, useReducer} from "react";
+
 import ChipList from "@/components/chip/chip-list";
+
+type State = {
+    chips: ViewItem []
+    inputString: string
+}
+
+export type AddChipAction = {
+    success: boolean
+    type: "addChip",
+    item: ViewItem
+}
+
+export type DeleteChipAction = {
+    success: boolean
+    type: "deleteChip",
+    itemId: string
+}
+
+export type changeInputAction = {
+    type: "changeInput",
+    value: string
+}
+
+export type Action = AddChipAction | changeInputAction | DeleteChipAction
 
 export type Props = {
     initChips: ViewItem []
-    onAddChip: (chip: ViewItem) => Promise<ViewResponse>
-    onDeleteChip: (chipId: string) => Promise<ViewResponse>
+    onAddChip: (chip: ViewItem) => Promise<AddChipAction>
+    onDeleteChip: (chipId: string) => Promise<DeleteChipAction>
 }
 
 
-export default function ChipEditor(props: Props) {
-    const [chips, setChips] = useState<ViewItem[]>(props.initChips)
-    const [inputChip, setInputChip] = useState<string>('');
-    const {enqueueSnackbar} = useSnackbar()
+function changeInput(state: State, action: Action): State {
+    if (action.type !== "changeInput") return state
+    return {
+        inputString: action.value,
+        chips: state.chips
+    }
+}
 
+function addChip(state: State, action: Action): State {
+    if (action.type !== "addChip") return state
+    if (!action.success) return state
+
+    if (state.chips.find((item) => item.id === action.item.id)) {
+        return state
+    }
+    return {
+        inputString: '',
+        chips: [...state.chips, new ViewItem(action.item.id!!, action.item.viewValue!!)]
+    }
+}
+
+function deleteChip(state: State, action: Action): State {
+    if (action.type !== "deleteChip") return state
+    if (!action.success) return state
+    return {
+        inputString: '',
+        chips: state.chips.filter((item) => item.id !== action.itemId)
+    }
+}
+
+function reducer(state: State, action: Action): State {
+    switch (action.type) {
+        case "addChip":
+            return addChip(state, action)
+        case "deleteChip":
+            return deleteChip(state, action)
+        case "changeInput":
+            return changeInput(state, action)
+        default:
+            return state
+    }
+}
+
+export default function ChipEditor(props: Props) {
+    const [state, dispatch] = useReducer(reducer, {
+        inputString: '',
+        chips: props.initChips
+    })
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputChip(event.target.value);
+        const value = event.target.value
+        dispatch({type: "changeInput", value})
     };
 
     async function handleKeyup(event: React.KeyboardEvent) {
         if (event.key !== 'Enter') return
-        if (inputChip.length < 2) {
-            enqueueSnackbar("태그는 최소 2글자 이상만 가능합니다.", FAIL_TOP_MIDDLE_OPTION)
-            return
-        }
-        if (inputChip === 'All') {
-            enqueueSnackbar("추가할 수 없는 태그 이름 입니다.", FAIL_TOP_MIDDLE_OPTION)
-            return
-        }
-        const ret = chips.find((chip) => chip.viewValue === inputChip)
-        if (ret) {
-            setInputChip('')
-            return
-        }
-
-        const res = await props.onAddChip({id: inputChip, viewValue: inputChip})
-        res.success && setChips([...chips, {id: inputChip, viewValue: inputChip}])
-        res.success && setInputChip('')
-        !res.success && enqueueSnackbar(res.errorMessage, FAIL_TOP_MIDDLE_OPTION)
+        const action = await props.onAddChip({id: state.inputString, viewValue: state.inputString})
+        dispatch(action)
     }
 
     async function handleDeleteChip(chipId: string) {
-        const res = await props.onDeleteChip(chipId)
-        res.success && setChips(chips.filter((c) => c.id !== chipId))
-        !res.success && enqueueSnackbar(res.errorMessage, FAIL_TOP_MIDDLE_OPTION)
+        const action = await props.onDeleteChip(chipId)
+        dispatch(action)
     }
 
     return (
         <div className={'flex flex-col w-full'}>
             <div>
-                <ChipList chips={chips} onDeleteChip={handleDeleteChip}/>
+                <ChipList chips={state.chips} onDeleteChip={handleDeleteChip}/>
             </div>
             <div>
                 <input type={'text'}
+                       className={'rounded w-full h-12 border-2 p-4'}
                        onKeyUp={handleKeyup}
                        onChange={handleInputChange}
-                       value={inputChip} placeholder={"tag"} className={'rounded w-full h-12 border-2 p-4'}/>
+                       value={state.inputString}
+                       placeholder={"tag"}
+                />
             </div>
         </div>
     )
