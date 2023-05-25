@@ -1,4 +1,4 @@
-import {makeAutoObservable, observable, flow, runInAction} from "mobx"
+import {makeAutoObservable, flow} from "mobx"
 import postRepository from "@/domain/post/repositories";
 import userRepository from "@/domain/user/repositories";
 
