@@ -32,8 +32,7 @@ const PostWriterObserver = observer((props: Props) => {
         e.stopPropagation()
         const editorIns = ref?.current?.getInstance();
         const contentMark = editorIns.getMarkdown()
-        // const act = await props.onSubmitPost(state.title, contentMark, state.tags)
-        // dispatch(act)
+
     }
 
     return (

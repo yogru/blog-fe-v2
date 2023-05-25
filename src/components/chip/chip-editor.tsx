@@ -11,6 +11,8 @@ export type Props = {
 
 export default function ChipEditor(props: Props) {
     const [inputString, setInputString] = useState<string>('')
+
+    console.log("보자고,,", props)
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value
         setInputString(value)
