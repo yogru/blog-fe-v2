@@ -15,6 +15,17 @@ export class UserRepository {
         return Promise.reject(new FailException(res.message!!))
     }
 
+    public getAccessKey() {
+        if (typeof window !== 'undefined') {
+            const ret = window.localStorage.getItem("accessKey")
+            if (ret === null) {
+                throw new Error("로그인 정보가 없습니다.")
+            }
+            return ret
+        }
+        throw new Error("서버에서 호출 되었습니다.")
+    }
+
 }
 
 const userRepository = new UserRepository()

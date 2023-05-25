@@ -1,13 +1,17 @@
 'use client'
 
-import PostWriterContainer from "@/container/post/writer-container";
 import React from "react";
 import {SnackbarProvider} from "notistack";
 
+import PostWriterObserver from "@/observer/post/writer";
+import postService from "@/domain/post/services";
+
+
 export default function PostWritePage() {
+
     return (
         <SnackbarProvider maxSnack={3}>
-            <PostWriterContainer/>
+            <PostWriterObserver postService={postService}/>
         </SnackbarProvider>
     )
 }

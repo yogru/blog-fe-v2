@@ -1,4 +1,4 @@
-import {ViewItem} from "@/infra/generic-view-type";
+import {ViewItem} from "@/infra/generic-type";
 
 export type Props = {
     chip: ViewItem

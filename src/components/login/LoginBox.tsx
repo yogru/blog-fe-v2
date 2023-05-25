@@ -1,7 +1,7 @@
 "use client"
 
 import {useState} from "react";
-import {ViewResponse} from "@/infra/generic-view-type";
+import {ViewResponse} from "@/infra/generic-type";
 
 export type Props = {
     onLogin: (email: string, password: string) => Promise<ViewResponse>

@@ -1,13 +1,48 @@
-import {useCallback} from "react";
-import {ViewItem, ViewResponse} from "@/infra/generic-view-type";
-import postRepository from "@/domain/post/repositories";
+import {createContext, useCallback, useState} from "react";
 
+import {ViewItem} from "@/infra/generic-type";
+import postRepository from "@/domain/post/repositories";
 import {useAccessKey} from "@/domain/user/hooks";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";
 import {TagModel} from "@/domain/post/models";
 import {AddChipAction, DeleteChipAction} from "@/components/chip/chip-editor"
 
+
+type PostWriteContextState = {
+    title: string,
+    tags: string[],
+    addTag: (tagId: string, tagName: string) => Promise<void>
+    deleteTag: (tagId: string) => Promise<void>
+}
+export const PostWriteContext = createContext<PostWriteContextState>({
+    title: '',
+    tags: [],
+    addTag: (tagId: string, tagName: string) => Promise.reject(),
+    deleteTag: (tagId: string) => Promise.reject()
+});
+
+export function usePostWriteService() {
+    const [tags, setTags] = useState<string[]>([])
+    const [title, setTitle] = useState<string>('')
+
+    const addTag = useCallback(async (tagId: string, tagName: string) => {
+        return Promise.resolve()
+    }, [setTags])
+
+    const deleteTag = useCallback(async (tagId: string) => {
+        return Promise.resolve()
+    }, [setTags])
+
+
+    return {tags, title, addTag, deleteTag}
+}
+
+
 export function useTagService() {
+    const [tags, setTags] = useState<string[]>([])
+    const [title, setTitle] = useState<string>('')
+
+
     const {upSnackbar} = useMySnackbar()
     const {accessKey, isValid} = useAccessKey()
 
@@ -62,6 +97,7 @@ export function useTagService() {
         }
         return ret
     }, [accessKey, isValid])
+
 
     return {addTag, deleteTag}
 }

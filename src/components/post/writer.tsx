@@ -1,37 +1,32 @@
 'use client'
 
-import React, {useReducer} from "react";
+import React, {useState} from "react";
 import ToastEditor from "@/components/toast/editor";
-import {ViewItem} from "@/infra/generic-view-type";
-import ChipEditor, {AddChipAction, DeleteChipAction} from "@/components/chip/chip-editor";
+import ChipEditor from "@/components/chip/chip-editor";
+import postService, {PostService} from "@/domain/post/services";
 
 type Props = {
-    onAddChip: (chip: ViewItem) => Promise<AddChipAction>
-    onDeleteChip: (chipId: string) => Promise<DeleteChipAction>
-    onSubmitPost: (title: string, body: string, tags: ViewItem[]) => Promise<SubmitAction>
+    postService: PostService
 }
 
 export default function PostWriter(props: Props) {
-    const [state, dispatch] = useReducer(reduce, {title: '', tags: []})
     const ref = React.useRef<any>(null);
+    const [titleString, setTitle] = useState<string>('')
 
     function onChangeTitle(e: any) {
         e.stopPropagation()
-        dispatch({type: "changeTitle", value: e.target.value})
+        const value = e.target.value
+        setTitle(value)
+        postService.changeTitle(value)
     }
 
     async function onSubmit(e: any) {
         e.stopPropagation()
         const editorIns = ref?.current?.getInstance();
         const contentMark = editorIns.getMarkdown()
-        const act = await props.onSubmitPost(state.title, contentMark, state.tags)
-        dispatch(act)
+        // const act = await props.onSubmitPost(state.title, contentMark, state.tags)
+        // dispatch(act)
     }
-
-    function onChangeChips(chips: ViewItem[]) {
-        dispatch({type: "changeTags", chips})
-    }
-
 
     return (
         <div className={root}>
@@ -40,17 +35,12 @@ export default function PostWriter(props: Props) {
             </div>
 
             <div className={item}>
-                <ChipEditor
-                    initChips={[]}
-                    onAddChip={props.onAddChip}
-                    onDeleteChip={props.onDeleteChip}
-                    onChangeChips={onChangeChips}
-                />
+                <ChipEditor postService={props.postService}/>
             </div>
 
             <div className={item}>
                 <input type="text"
-                       value={state.title}
+                       value={titleString}
                        onChange={onChangeTitle}
                        className={title} placeholder="제목 입력 해주세요"/>
             </div>
@@ -60,58 +50,6 @@ export default function PostWriter(props: Props) {
             </div>
         </div>
     )
-}
-
-// action , state
-type State = {
-    title: string,
-    tags: ViewItem[]
-}
-type ChangeTitleAction = {
-    type: "changeTitle",
-    value: string
-}
-
-type ChangeTagsAction = {
-    type: "changeTags",
-    chips: ViewItem[]
-}
-
-export type SubmitAction = {
-    type: "submit",
-    title: string,
-    content: string
-}
-
-export type Action = ChangeTitleAction | ChangeTagsAction | SubmitAction
-
-
-// reduce
-function changeTitle(state: State, action: Action) {
-    if (action.type !== "changeTitle") return state
-    return {
-        title: action.value,
-        tags: state.tags
-    }
-}
-
-function changeChips(state: State, action: Action) {
-    if (action.type !== "changeTags") return state
-    return {
-        title: state.title,
-        tags: [...action.chips]
-    }
-}
-
-function reduce(state: State, action: Action) {
-    switch (action.type) {
-        case "changeTitle":
-            return changeTitle(state, action)
-        case "changeTags":
-            return changeChips(state, action)
-        default:
-            return state
-    }
 }
 
 

@@ -2,7 +2,7 @@ import {LoginUserModel} from "@/domain/user/models";
 import userRepository from '@/domain/user/repositories'
 import useMyLocalStorage from "@/infra/hooks/useMyLocalStorage";
 import {useCallback} from "react";
-import {ViewResponse} from "@/infra/generic-view-type";
+import {ViewResponse} from "@/infra/generic-type";
 
 
 export function useLogin() {
@@ -14,11 +14,11 @@ export function useLogin() {
                 setItem(model.accessKey)
                 return new ViewResponse(true)
             })).catch(fail => {
-                    return new ViewResponse(false, fail)
+                    return new ViewResponse(false)
                 }
             )
         } catch (err) {
-            return new ViewResponse(false, err as string)
+            return new ViewResponse(false)
         }
     }
     return login

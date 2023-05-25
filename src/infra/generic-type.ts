@@ -20,3 +20,9 @@ export class MyResult<T> {
     ) {
     }
 }
+
+
+export class ReduxAction {
+    constructor(public readonly type: string) {
+    }
+}
