@@ -1,12 +1,12 @@
 import {observer} from "mobx-react-lite";
 
-import {PostService} from "@/domain/post/services";
+import {PostStore} from "@/domain/post/stores";
 import ChipEditor from "@/components/chip/chip-editor";
 import {ViewItem} from "@/infra/generic-type";
 
 
 type Props = {
-    postService: PostService
+    postService: PostStore
 }
 
 const TagEditorObserver = observer((props: Props) => {

@@ -6,23 +6,14 @@ export class ViewItem {
     }
 }
 
-export class ViewResponse {
-    constructor(
-        public readonly success: boolean,
-    ) {
-    }
+export type FailResult = {
+    success: false,
+    errorMessage: string
 }
 
-export class MyResult<T> {
-    constructor(
-        public readonly success: boolean,
-        public readonly data: T
-    ) {
-    }
+export type SuccessResult<T> = {
+    success: true,
+    data: T
 }
 
-
-export class ReduxAction {
-    constructor(public readonly type: string) {
-    }
-}
+export type Result<T> = FailResult | SuccessResult<T>

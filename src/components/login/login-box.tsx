@@ -1,12 +1,11 @@
 "use client"
 
-import {useState} from "react";
-import {ViewResponse} from "@/infra/generic-type";
+import {useCallback, useState} from "react";
 
 export type Props = {
-    onLogin: (email: string, password: string) => Promise<ViewResponse>
-    onSuccessLogin: () => Promise<void>
-    onFailLogin: (message: string) => Promise<void>
+    onLogin: () => Promise<void>
+    onChangeEmail: (email: string) => void
+    onChangePassword: (password: string) => void
 }
 
 
@@ -14,19 +13,24 @@ export default function LoginBox(props: Props) {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    function onChangeEmail(e: any) {
-        setEmail(e.target.value)
+    const onChangeEmail = (e: any) => {
+        e.stopPropagation()
+        const value = e.target.value
+        setEmail(value)
+        props.onChangeEmail(value)
     }
 
-    function onChangePassword(e: any) {
-        setPassword(e.target.value)
+    const onChangePassword = (e: any) => {
+        e.stopPropagation()
+        const value = e.target.value
+        setPassword(value)
+        props.onChangePassword(value)
     }
 
-    async function onClickSignIn() {
-        const viewResponse = await props.onLogin(email, password)
-        viewResponse.success && await props.onSuccessLogin()
-        !viewResponse.success && await props.onFailLogin(viewResponse.errorMessage!!)
-    }
+    const onLogin = useCallback(async () => {
+        await props.onLogin()
+    }, [props.onLogin])
+
 
     return (
         <div className={"flex flex-col  m-auto w-96 h-96 bg-white rounded-md"}>
@@ -44,7 +48,9 @@ export default function LoginBox(props: Props) {
                                 address
                             </label>
                             <div className="mt-2">
-                                <input id="email" name="email" type="email" autoComplete="email" required
+                                <input id="email" name="email" type="email" autoComplete="email"
+                                       value={email}
+                                       required
                                        onChange={onChangeEmail}
                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                             </div>
@@ -62,6 +68,7 @@ export default function LoginBox(props: Props) {
                             <div className="mt-2">
                                 <input id="password" name="password" type="password" autoComplete="current-password"
                                        required
+                                       value={password}
                                        onChange={onChangePassword}
                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                             </div>
@@ -69,7 +76,7 @@ export default function LoginBox(props: Props) {
 
                         <div className={"mt-4"}>
                             <button type="submit"
-                                    onClick={onClickSignIn}
+                                    onClick={onLogin}
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 Sign in
                             </button>

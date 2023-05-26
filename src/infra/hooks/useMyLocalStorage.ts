@@ -9,7 +9,6 @@ export interface Props {
 export default function useMyLocalStorage(props: Props) {
     const [value, setValue] = useState<string>(props.defaultValue || '')
 
-
     useEffect(() => {
         setValue(window.localStorage.getItem(props.key) || props.defaultValue || '')
     }, [props.key])

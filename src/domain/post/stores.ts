@@ -4,7 +4,7 @@ import userRepository from "@/domain/user/repositories";
 
 
 
-export class PostService {
+export class PostStore {
     constructor(
         public id: string | null = null,
         public title: string = '',
@@ -25,7 +25,7 @@ export class PostService {
     }
 
 
-    addTag = flow(function* (this: PostService, tagName: string) {
+    addTag = flow(function* (this: PostStore, tagName: string) {
         if (tagName.length < 2) {
             throw new Error("태그는 최소 2글자 이상만 가능합니다.")
         }
@@ -43,7 +43,7 @@ export class PostService {
         }
     })
 
-    deleteTag = flow(function* (this: PostService, tagName: string) {
+    deleteTag = flow(function* (this: PostStore, tagName: string) {
         const found = this.tags.find(t => t === tagName)
         if (!found) throw new Error("존재 하지 않는 태그 삭제 시도")
         try {
@@ -60,6 +60,6 @@ export class PostService {
 }
 
 
-const postService = new PostService()
+const postStore = new PostStore()
 
-export default postService
+export default postStore

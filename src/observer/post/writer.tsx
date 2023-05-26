@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import {PostService} from "@/domain/post/services";
+import {PostStore} from "@/domain/post/stores";
 import ToastEditor from "@/components/toast/editor";
 import TagEditor from "@/observer/post/tag-editor";
 
 
 type Props = {
-    postService: PostService
+    postService: PostStore
 }
 
 // styles

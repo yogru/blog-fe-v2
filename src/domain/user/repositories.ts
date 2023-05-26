@@ -1,31 +1,56 @@
-import {LoginUserModel, UserModel} from "@/domain/user/models";
 import restCall from "@/infra/rest-call";
 import env from "@/infra/env";
-import {FailException} from "@/infra/errors";
+import {CustomError, EnvironmentError} from "@/infra/errors";
+
+export class AccessToken {
+    constructor(public accessKey: string) {
+    }
+}
+
+export interface LoginRestResult {
+    accessToken: string
+    refreshToken: string
+    grantType: string
+}
+
+
+export class LoginFail extends CustomError {
+    constructor() {
+        super("LoginFail", "로그인 실패 했습니다. ");
+    }
+}
+
+export class LogoutError extends CustomError {
+    constructor() {
+        super("LogoutError", "로그아웃 된 상태 입니다.");
+    }
+}
 
 
 export class UserRepository {
-    public async login(user: LoginUserModel): Promise<UserModel> {
+
+    public async login(email: string, password: string): Promise<LoginRestResult> {
         const url = env.backUrl + "/user/login"
-        const res = await restCall.post(url, {username: user.email, password: user.password})
+        const res = await restCall.post<{ username: string, password: string }, LoginRestResult>(url, {
+            username: email,
+            password: password
+        })
         if (res.ok) {
-            const accessToken = res.data['accessToken']
-            return new UserModel(user.email, accessToken)
+            return res.data!!
         }
-        return Promise.reject(new FailException(res.message!!))
+        throw new LoginFail()
     }
 
     public getAccessKey() {
         if (typeof window !== 'undefined') {
             const ret = window.localStorage.getItem("accessKey")
             if (ret === null) {
-                throw new Error("로그인 정보가 없습니다.")
+                throw new LogoutError()
             }
             return ret
         }
-        throw new Error("서버에서 호출 되었습니다.")
+        throw new EnvironmentError()
     }
-
 }
 
 const userRepository = new UserRepository()
