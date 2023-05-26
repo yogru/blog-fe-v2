@@ -5,56 +5,34 @@ import {CustomError} from "@/infra/errors";
 import {Result} from "@/infra/generic-type";
 
 
-class InValidNewTag extends CustomError {
-    constructor(message: string) {
-        super("InValidNewTag", message);
-    }
-}
-
-class NotFoundTag extends CustomError {
-    constructor(tagName: string) {
-        super("NotFoundTag", "해당 태그는 존재 하지 않습니다. " + tagName);
-    }
-}
-
-export class PostStore {
+export class PostEditStore {
     constructor(
         public id: string | null = null,
         public title: string = '',
-        public body: string = '',
-        public writerName: string | null = null,
-        public writerEmail: string | null = null,
-        public username: string | null = null,
-        public createdAt: string | null = null,
-        public updatedAt: string | null = null,
-        public tags: string [] = [],
+        public body: string | null = null,
+        public tags: string [] = ["All"],
         public deleted: boolean = false
     ) {
         makeAutoObservable(this)
     }
 
-    changeTitle(title: string) {
+    onChangeTitle(title: string) {
         this.title = title
     }
 
 
-    private checkNewTag(tagName: string) {
-        if (tagName.length < 2) {
-            throw new InValidNewTag("태그는 최소 2글자 이상만 가능합니다.")
-        }
-        if (tagName === 'All') {
-            throw new InValidNewTag("추가할 수 없는 태그 이름 입니다.")
-        }
-    }
-
-    private checkDeleteTag(tagId: string) {
-        const found = this.tags.find(t => t === tagId)
-        if (!found) throw new NotFoundTag(tagId)
-    }
-
     async addTag(tagName: string): Promise<Result<null>> {
+        const checkNewTag = (tagName: string) => {
+            if (tagName.length < 2) {
+                // 여기 에러 여러개 만들어야함..
+                throw new InvalidNewTag("태그는 최소 2글자 이상만 가능합니다.")
+            }
+            if (tagName === 'All') {
+                throw new InvalidNewTag("추가할 수 없는 태그 이름 입니다.")
+            }
+        }
         try {
-            this.checkNewTag(tagName)
+            checkNewTag(tagName)
             const accessKey = userRepository.getAccessKey()
             const res = await postRepository.addTag(tagName, accessKey)
             res.ok && runInAction(() => {
@@ -67,12 +45,16 @@ export class PostStore {
     }
 
     async deleteTag(tagName: string): Promise<Result<null>> {
+        const checkDeleteTag = (tagId: string) => {
+            const found = this.tags.find(t => t === tagId)
+            if (!found) throw new NotFoundTag(tagId)
+        }
         const removeTag = () => {
-            this.checkDeleteTag(tagName)
+            checkDeleteTag(tagName)
             this.tags = this.tags.filter(t => t !== tagName)
         }
         try {
-            this.checkDeleteTag(tagName)
+            checkDeleteTag(tagName)
             const accessKey = userRepository.getAccessKey()
             const res = await postRepository.deleteTag(tagName, accessKey)
             runInAction(removeTag)
@@ -81,9 +63,62 @@ export class PostStore {
             return CustomError.catchAndReturnFail(e)
         }
     }
+
+    async post(content: string): Promise<Result<null>> {
+        const checkContent = () => {
+            if (!content || content.length < 2) {
+                throw new ContentTooShortError()
+            }
+        }
+        const checkTitle = () => {
+            if (!this.title || this.title.length < 2) {
+                throw new TitleTooShortError()
+            }
+        }
+        try {
+            checkContent()
+            checkTitle()
+            const accessKey = userRepository.getAccessKey()
+            const res = await postRepository.createPost({
+                body: content,
+                title: this.title,
+                tags: this.tags,
+                deleted: false
+            }, accessKey)
+            return {success: true}
+        } catch (e) {
+            return CustomError.catchAndReturnFail(e)
+        }
+    }
 }
 
 
-const postStore = new PostStore()
+const postEditStore = new PostEditStore()
 
-export default postStore
+export default postEditStore
+
+
+// errors
+class InvalidNewTag extends CustomError {
+    constructor(message: string) {
+        super("InvalidNewTag", message);
+    }
+}
+
+class NotFoundTag extends CustomError {
+    constructor(tagName: string) {
+        super("NotFoundTag", "해당 태그는 존재 하지 않습니다. " + tagName);
+    }
+}
+
+class ContentTooShortError extends CustomError {
+    constructor() {
+        super("ContentTooShortError", "에디터의 본문 내용이 최소 2글자 이상 되어야 합니다.");
+    }
+}
+
+class TitleTooShortError extends CustomError {
+    constructor() {
+        super("TitleTooShortError", "제목의 길이가 2글자 이상 되어야 합니다.");
+    }
+}

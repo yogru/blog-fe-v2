@@ -1,13 +1,15 @@
 import React, {useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import {PostStore} from "@/domain/post/stores";
+import {PostEditStore} from "@/domain/post/stores";
 import ToastEditor from "@/components/toast/editor";
 import TagEditor from "@/observer/post/tag-editor";
+import useMySnackbar from "@/infra/hooks/useMySnackbar";
+import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 
 
 type Props = {
-    postStore: PostStore
+    postStore: PostEditStore
 }
 
 // styles
@@ -17,7 +19,9 @@ const submit: string = 'block shadow-lg rounded w-32 h-10 bg-indigo-600 text-amb
 const title: string = 'rounded w-full h-12 border-2 p-4'
 
 const PostWriterObserver = observer((props: Props) => {
-    const ref = React.useRef<any>(null);
+    const ref = React.useRef<any>(null)
+    const {upErrorSnackbar} = useMySnackbar()
+    const {replace} = useBlogRouter()
     const [titleString, setTitle] = useState<string>('')
     const postService = props.postStore
 
@@ -25,21 +29,22 @@ const PostWriterObserver = observer((props: Props) => {
         e.stopPropagation()
         const value = e.target.value
         setTitle(value)
-        postService.changeTitle(value)
+        postService.onChangeTitle(value)
     }
 
     async function onSubmit(e: any) {
         e.stopPropagation()
-        const editorIns = ref?.current?.getInstance();
+        const editorIns = ref?.current?.getInstance()
         const contentMark = editorIns.getMarkdown()
-
-
+        const ret = await postService.post(contentMark)
+        upErrorSnackbar(ret)
+        ret.success && await replace("HOME")
     }
 
     return (
         <div className={root}>
             <div className={item}>
-                <button className={submit}> 글 쓰기</button>
+                <button onClick={onSubmit} className={submit}> 글 쓰기</button>
             </div>
 
             <div className={item}>
