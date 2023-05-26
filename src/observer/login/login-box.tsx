@@ -15,14 +15,10 @@ const LoginBoxObserver = observer((props: Props) => {
     const {loginService} = props
 
     async function onLogin() {
-        try {
-            const ret = await loginService.login()
-            console.log("뭐지??", ret)
-            ret.success && await push("HOME")
-            !ret.success && upSnackbar(ret.errorMessage)
-        } catch (e) {
-            console.log(e)
-        }
+        const ret = await loginService.login()
+        console.log("뭐지??", ret)
+        ret.success && await push("HOME")
+        !ret.success && upSnackbar(ret.errorMessage)
     }
 
     function onChangeEmail(email: string) {

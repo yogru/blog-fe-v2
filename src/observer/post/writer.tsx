@@ -7,7 +7,7 @@ import TagEditor from "@/observer/post/tag-editor";
 
 
 type Props = {
-    postService: PostStore
+    postStore: PostStore
 }
 
 // styles
@@ -19,7 +19,7 @@ const title: string = 'rounded w-full h-12 border-2 p-4'
 const PostWriterObserver = observer((props: Props) => {
     const ref = React.useRef<any>(null);
     const [titleString, setTitle] = useState<string>('')
-    const postService = props.postService
+    const postService = props.postStore
 
     function onChangeTitle(e: any) {
         e.stopPropagation()
@@ -33,6 +33,7 @@ const PostWriterObserver = observer((props: Props) => {
         const editorIns = ref?.current?.getInstance();
         const contentMark = editorIns.getMarkdown()
 
+
     }
 
     return (
@@ -42,7 +43,7 @@ const PostWriterObserver = observer((props: Props) => {
             </div>
 
             <div className={item}>
-                <TagEditor postService={props.postService}/>
+                <TagEditor postService={props.postStore}/>
             </div>
 
             <div className={item}>

@@ -11,7 +11,7 @@ export default function PostWritePage() {
 
     return (
         <SnackbarProvider maxSnack={3}>
-            <PostWriterObserver postService={postStore}/>
+            <PostWriterObserver postStore={postStore}/>
         </SnackbarProvider>
     )
 }

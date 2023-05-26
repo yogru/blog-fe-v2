@@ -13,7 +13,8 @@ export type FailResult = {
 
 export type SuccessResult<T> = {
     success: true,
-    data: T
+    message?: string
+    data?: T
 }
 
 export type Result<T> = FailResult | SuccessResult<T>

@@ -3,6 +3,7 @@ import {observer} from "mobx-react-lite";
 import {PostStore} from "@/domain/post/stores";
 import ChipEditor from "@/components/chip/chip-editor";
 import {ViewItem} from "@/infra/generic-type";
+import useMySnackbar from "@/infra/hooks/useMySnackbar";
 
 
 type Props = {
@@ -10,10 +11,13 @@ type Props = {
 }
 
 const TagEditorObserver = observer((props: Props) => {
+    const {upErrorSnackbar,} = useMySnackbar()
+
     const postService = props.postService
 
     async function addChip(item: ViewItem) {
-        await postService.addTag(item.id)
+        const res = await postService.addTag(item.id)
+        upErrorSnackbar(res)
     }
 
     async function deleteChip(id: string) {
