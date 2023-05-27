@@ -20,7 +20,6 @@ export class PostEditStore {
         this.title = title
     }
 
-
     async addTag(tagName: string): Promise<Result<null>> {
         const checkNewTag = (tagName: string) => {
             if (tagName.length < 2) {

@@ -1,11 +1,12 @@
-import styles from '../styles/home.module.css'
+'use client'
+
+import MenuObserver from "@/observer/menu";
+import menuStore from "@/domain/menu/stores";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={'bg-black'}>
-          dfsf
-      </div>
-    </main>
-  )
+    return (
+        <>
+            <MenuObserver store={menuStore}/>
+        </>
+    )
 }
