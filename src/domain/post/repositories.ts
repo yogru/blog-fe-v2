@@ -22,8 +22,8 @@ export interface SearchPostList {
 }
 
 export interface PostUser {
-    writerName: String
-    writerEmail: String
+    writerName: string
+    writerEmail: string
 }
 
 export interface PostModel {
@@ -41,6 +41,10 @@ export interface PostModel {
 
 export interface PostListRes {
     posts: PostModel[]
+}
+
+export interface PostRes {
+    post: PostModel
 }
 
 export class PostRepository extends Repository {
@@ -80,6 +84,12 @@ export class PostRepository extends Repository {
         }
         const res: RestResponse<PostListRes> = await restCall.get(url)
         return res.data!!
+    }
+
+    async loadPost(id: string) {
+        const url = this.getBaseUrl() + "/post/" + id
+        const res = await restCall.get<PostRes>(url)
+        if (res.ok) return res.data
     }
 }
 

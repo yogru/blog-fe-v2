@@ -16,7 +16,6 @@ export interface ImageBlobHookResponse {
     imageTxt?: string
 }
 
-
 interface Props {
     content?: string
     editorRef: React.MutableRefObject<any>
