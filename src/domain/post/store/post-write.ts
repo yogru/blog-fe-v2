@@ -5,13 +5,11 @@ import {CustomError} from "@/infra/errors";
 import {Result} from "@/infra/generic-type";
 
 
-export class PostEditStore {
+export class PostWriteStore {
     constructor(
         public id: string | null = null,
         public title: string = '',
-        public body: string | null = null,
         public tags: string [] = ["All"],
-        public deleted: boolean = false
     ) {
         makeAutoObservable(this)
     }
@@ -92,9 +90,9 @@ export class PostEditStore {
 }
 
 
-const postEditStore = new PostEditStore()
+const postWriteStore = new PostWriteStore()
 
-export default postEditStore
+export default postWriteStore
 
 
 // errors

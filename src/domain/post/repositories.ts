@@ -14,30 +14,73 @@ export interface PostCreateRes {
     id: string
 }
 
+export interface SearchPostList {
+    curPage: number
+    perPage: number
+    tags?: string[]
+    title?: string
+}
+
+export interface PostUser {
+    writerName: String
+    writerEmail: String
+}
+
+export interface PostModel {
+    id: string
+    title: string
+    body: string
+    writer: PostUser
+    username: string
+    createdAt: string
+    updatedAt: string
+    tags: string []
+    deleted: boolean
+}
+
+
+export interface PostListRes {
+    posts: PostModel[]
+}
 
 export class PostRepository extends Repository {
 
-    public async addTag(tag: string, accessKey: string) {
+    async addTag(tag: string, accessKey: string) {
         const url = this.getBaseUrl() + "/post/tag";
         const ret = await restCall.post<{ tag: string }, null>(url, {tag: tag}, {bearerToken: accessKey})
         if (ret.ok) return ret
         throw new FailAddTag()
     }
 
-    public async deleteTag(tag: string, accessKey: string) {
+    async deleteTag(tag: string, accessKey: string) {
         const url = this.getBaseUrl() + "/post/tag/" + tag;
         const ret = await restCall.delete<null>(url, {bearerToken: accessKey})
         if (ret.ok) return ret
         throw new FailDeleteTag()
     }
 
-    public async createPost(post: PostCreateReq, accessKey: string) {
+    async createPost(post: PostCreateReq, accessKey: string) {
         const url = this.getBaseUrl() + "/post"
         const ret: RestResponse<PostCreateRes> = await restCall.post(url, post, {bearerToken: accessKey})
         if (ret.ok) return ret
         throw new FailCreatePost()
     }
 
+
+    async searchPostList(searchList: SearchPostList): Promise<PostListRes> {
+        let {tags, curPage, perPage, title} = searchList
+        let url = this.getBaseUrl() + `/post/list?page=${curPage}&perPage=${perPage}`
+        if (Array.isArray(tags) && tags.length >= 1) {
+            tags.forEach((tag) => {
+                url += "&tags=" + tag
+            })
+        }
+        if (title && title?.length >= 2) {
+            url += "&title=" + title
+        }
+        const res: RestResponse<PostListRes> = await restCall.get(url)
+        return res.data!!
+    }
 }
 
 const postRepository = new PostRepository()

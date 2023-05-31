@@ -1,13 +1,13 @@
 import {observer} from "mobx-react-lite";
 
-import {PostEditStore} from "@/domain/post/stores";
+import {PostWriteStore} from "@/domain/post/store/post-write";
 import ChipEditor from "@/components/chip/chip-editor";
 import {ViewItem} from "@/infra/generic-type";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";
 
 
 type Props = {
-    postService: PostEditStore
+    postService: PostWriteStore
 }
 
 const TagEditorObserver = observer((props: Props) => {

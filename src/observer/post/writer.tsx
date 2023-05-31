@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {observer} from "mobx-react-lite";
 
-import {PostEditStore} from "@/domain/post/stores";
+import {PostWriteStore} from "@/domain/post/store/post-write";
 import ToastEditor from "@/components/toast/editor";
 import TagEditor from "@/observer/post/tag-editor";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";
@@ -9,7 +9,7 @@ import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 
 
 type Props = {
-    postStore: PostEditStore
+    postStore: PostWriteStore
 }
 
 // styles
