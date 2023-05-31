@@ -13,7 +13,7 @@ export default function useMyTheme() {
             setTheme(nextTheme)
             setStateTheme(nextTheme)
         }
-    }, [window])
+    }, [])
 
     function removeTheme() {
         if (typeof window !== undefined) {
@@ -24,7 +24,7 @@ export default function useMyTheme() {
                 document.documentElement.classList.remove('light');
             }
         }
-     //   throw new EnvironmentError()
+        //   throw new EnvironmentError()
     }
 
     function setTheme(t: MyTheme) {
@@ -34,7 +34,7 @@ export default function useMyTheme() {
             document.documentElement.classList.add(t);
             setStateTheme(t)
         }
-      //  throw new EnvironmentError()
+        //  throw new EnvironmentError()
     }
 
     return {
