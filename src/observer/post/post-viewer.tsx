@@ -7,6 +7,7 @@ import ToastViewer from "@/components/toast/viewer";
 import {showJavaLocalDataToYYYYMMDD} from "@/infra/time-string";
 import ChipList from "@/components/chip/chip-list";
 import {ViewItem} from "@/infra/generic-type";
+import LoadingBox from "@/components/loading-box";
 
 
 type Props = {
@@ -45,8 +46,13 @@ function HeadComponent({title, writerName, createdAt, updatedAt, tags}: {
 function BodyComponent({content}: { content: string }) {
 
     return (
-        <div>
-            <NoSSrPostViewer content={content}/>
+        <div className={"mt-4"}>
+            <div className={"h-[960px]"}>
+                <LoadingBox isLoaded={false} clientLazySecond={2}>
+                    <NoSSrPostViewer content={content}/>
+                </LoadingBox>
+            </div>
+
         </div>
     )
 }
