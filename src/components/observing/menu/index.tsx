@@ -5,8 +5,11 @@ import {observer} from "mobx-react-lite";
 import {MenuStore} from "@/domain/menu/stores";
 import Menu from "../../base/menu";
 import useMyTheme, {MyTheme} from "@/infra/hooks/useMyTheme";
+import {UserStore} from "@/domain/user/stores";
 
-export type Props = {}
+export type Props = {
+    userStore: UserStore
+}
 
 const MenuObserver = observer((props: Props) => {
     const {theme, setTheme} = useMyTheme()

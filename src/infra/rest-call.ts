@@ -13,8 +13,15 @@ export interface RestResponse<T> {
     data?: T
 }
 
-export class RestCallOption {
-    bearerToken?: string
+export function buildRestCallOption(bearerToken: string | null = null, revalidate: number = 0): RestCallOption {
+    return {
+        bearerToken, revalidate
+    }
+}
+
+export interface RestCallOption {
+    readonly bearerToken?: string | null,
+    readonly revalidate?: number
 }
 
 export class RestCall {
@@ -27,6 +34,13 @@ export class RestCall {
             headers['Authorization'] = 'Bearer ' + opt.bearerToken
         }
         return headers
+    }
+
+    private buildNextOption(opt?: RestCallOption) {
+        if (opt && opt.revalidate) {
+            return {revalidate: opt.revalidate}
+        }
+        return {}
     }
 
     private async buildResponse<T>(res: Response): Promise<RestResponse<T>> {
@@ -42,17 +56,19 @@ export class RestCall {
 
     private async call<T, U>(method: "GET" | "POST" | "DELETE" | "PUT", url: string, data?: T, opt?: RestCallOption): Promise<RestResponse<U>> {
         const headers = this.buildHeader(opt)
+        const next = this.buildNextOption(opt)
         let res: Response | null = null
+
         try {
             switch (method) {
                 case "POST":
                 case "PUT":
                     const body = JSON.stringify(data!!)
-                    res = await fetch(url, {method, headers, body})
+                    res = await fetch(url, {method, headers, body, next})
                     break
                 case "GET":
                 case "DELETE":
-                    res = await fetch(url, {method, headers})
+                    res = await fetch(url, {method, headers, next})
                     break
             }
             return this.buildResponse(res!!)

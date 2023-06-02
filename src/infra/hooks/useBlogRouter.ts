@@ -41,8 +41,25 @@ export function useBlogRouter(props?: Props) {
         return router.push(baseUrl + "/" + id)
     }
 
+    async function gotoHome(replace?: boolean) {
+        if (replace) {
+            return router.replace('/')
+        }
+        return router.push("/")
+    }
+
+    async function gotoEditPost(postId: string, replace?: boolean) {
+        const url = "/"
+        if (replace) {
+            return router.replace(url)
+        }
+        return router.push(url)
+    }
+
     return {
         push, replace,
-        gotoPost
+        gotoPost,
+        gotoHome,
+        gotoEditPost
     }
 }

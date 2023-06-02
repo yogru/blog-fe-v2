@@ -63,3 +63,31 @@ export class LoginStore {
 
 
 export const loginStore = new LoginStore()
+
+
+export class UserStore {
+    constructor(
+        public isLoaded: boolean = false,
+        public writerName: string | null = null,
+        public accessKey: string | null = null
+    ) {
+        makeAutoObservable(this)
+    }
+
+    get isLogin() {
+        return this.accessKey !== null
+    }
+
+    async initialize() {
+        let accessKey: string | null = null
+        // 일단 간단하게 구현.
+        if (typeof window !== 'undefined') {
+            accessKey = window.localStorage.getItem("accessKey")
+        }
+
+        runInAction(() => {
+            this.isLoaded = true
+            this.accessKey = accessKey
+        })
+    }
+}

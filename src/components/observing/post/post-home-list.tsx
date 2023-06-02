@@ -3,19 +3,19 @@
 import Card from "@/components/base/card/card";
 import {PostListStore} from "@/domain/post/store/post-list-store";
 import {useEffect, useState} from "react";
-import {PostModel} from "@/domain/post/repositories";
+import {PostDto} from "@/domain/post/repositories";
 import useMyScroll from "@/infra/hooks/useMyScroll";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 
 export type Props = {
-    list: PostModel []
+    list: PostDto []
 }
 
 
 export default function PostHomeCardListObserver(props: Props) {
     const {gotoPost} = useBlogRouter()
     // ssr warring 때문에 따로 데이터 뺴놓음.
-    const [list, setList] = useState<PostModel[]>(props.list)
+    const [list, setList] = useState<PostDto[]>(props.list)
     const [store, setStore] = useState<PostListStore | null>(null)
     const {isReached} = useMyScroll()
     useEffect(() => {

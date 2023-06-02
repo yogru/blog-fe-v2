@@ -1,32 +1,42 @@
 "use client"
+
 import dynamic from "next/dynamic";
 import {useEffect, useState} from "react";
 
-import {PostModel} from "@/domain/post/repositories";
-import ToastViewer from "@/components/base/toast/viewer";
+import {PostDto} from "@/domain/post/repositories";
 import {showJavaLocalDataToYYYYMMDD} from "@/infra/time-string";
 import ChipList from "@/components/base/chip/chip-list";
 import {ViewItem} from "@/infra/generic-type";
 import LoadingBox from "../base/loading-box";
 import Footer from "../base/footer";
 import MenuObserver from "../observing/menu";
-import useClientSide from "@/infra/hooks/useClientSide";
+
 import useMyTimer from "@/infra/hooks/useMyTimer";
+import {UserStore} from "@/domain/user/stores";
+import {PostEditStore} from "@/domain/post/store/post-edit";
+import useMySnackbar from "@/infra/hooks/useMySnackbar";
+import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 
 
 type Props = {
-    post: PostModel
+    post: PostDto
 }
 
 const NoSSrPostViewer = dynamic(() => import("@/components/base/toast/viewer"), {ssr: false})
 
 
-function BodyHeader({title, writerName, createdAt, updatedAt, tags}: {
+function BodyHeader({
+                        title, isLogin, writerName, createdAt, updatedAt, tags,
+                        onEdit, onDelete
+                    }: {
     title: string,
+    isLogin: boolean
     writerName: string,
     createdAt: string,
     updatedAt: string
-    tags: string[]
+    tags: string[],
+    onDelete: () => Promise<void>,
+    onEdit: () => Promise<void>
 }) {
     return (
         <>
@@ -39,10 +49,14 @@ function BodyHeader({title, writerName, createdAt, updatedAt, tags}: {
                 {createdAt !== updatedAt &&
                     <span className={"text-sm"}>{showJavaLocalDataToYYYYMMDD(updatedAt)} 수정</span>
                 }
+                {isLogin && <span onClick={() => onEdit()} className={"text-sm hover:cursor-pointer"}> edit</span>}
+                {isLogin && <span onClick={() => onDelete()} className={"text-sm hover:cursor-pointer"}> delete</span>}
+
             </div>
             <div className={"mb-3"}>
                 <ChipList chips={tags.map(t => new ViewItem(t, t))} blackList={["All"]}/>
             </div>
+
         </>
     )
 }
@@ -61,24 +75,30 @@ function BodyContent({isLoaded, content}: { isLoaded: boolean, content: string }
 
 
 type PostViewerBodyProps = {
+    postId: string,
     title: string,
     writerName: string,
     createdAt: string,
     updatedAt: string,
     tags: string[],
     body: string,
-    isLoaded: boolean
+    isLoaded: boolean,
+    isLogin: boolean,
+    onEdit: (id: string) => Promise<void>,
+    onDelete: (id: string) => Promise<void>
 }
 
 export function PostViewerBody(props: PostViewerBodyProps) {
     const {
+        postId,
         title,
         writerName,
         createdAt,
         updatedAt,
         tags,
         body,
-        isLoaded
+        isLoaded,
+        isLogin
     } = props
     return (
         <div className={"flex flex-col divide-y-2"}>
@@ -88,6 +108,9 @@ export function PostViewerBody(props: PostViewerBodyProps) {
                             createdAt={createdAt}
                             updatedAt={updatedAt}
                             tags={tags}
+                            isLogin={isLogin}
+                            onDelete={async () => props.onDelete(postId)}
+                            onEdit={async () => props.onEdit(postId)}
                 />
             </div>
             <div className={"mt-1"}>
@@ -101,17 +124,39 @@ export function PostViewerBody(props: PostViewerBodyProps) {
 export default function PostViewerObserver(props: Props) {
     // 일부러 지연시킴.
     const {isEndTimer} = useMyTimer({second: 2})
+    const {gotoHome, gotoEditPost} = useBlogRouter()
     const [post,] = useState(props.post)
+    const [userStore,] = useState<UserStore>(new UserStore())
+    const [postEditStore,] = useState<PostEditStore>(new PostEditStore(props.post))
+    const {upErrorSnackbar} = useMySnackbar()
+    useEffect(() => {
+        userStore.initialize().then()
+    }, [userStore])
+
+    async function onDelete(postId: string) {
+        try {
+            const res = await postEditStore.deletePost()
+            upErrorSnackbar(res)
+            res.success && await gotoHome(true)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    async function onEdit(postId: string) {
+        await gotoEditPost(postId)
+    }
 
     return (
         <div>
             <div>
-                <MenuObserver/>
+                <MenuObserver userStore={userStore}/>
             </div>
 
             <div className={"flex pt-8 mb-[80px] min-h-[100%] h-auto"}>
                 <div className={"w-[64rem] ml-auto mr-auto"}>
                     <PostViewerBody
+                        postId={post.id}
                         title={post.title}
                         body={post.body}
                         tags={post.tags}
@@ -119,6 +164,9 @@ export default function PostViewerObserver(props: Props) {
                         createdAt={post.createdAt}
                         updatedAt={post.updatedAt}
                         isLoaded={isEndTimer}
+                        isLogin={userStore.isLogin}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
                     />
                 </div>
             </div>

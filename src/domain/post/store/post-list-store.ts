@@ -1,9 +1,9 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import postRepository, {PostModel} from "@/domain/post/repositories";
+import postRepository, {PostDto} from "@/domain/post/repositories";
 
 
 export class PostListStore {
-    constructor(public cards: PostModel[] = [],
+    constructor(public cards: PostDto[] = [],
                 public page: number = 1,
                 public perPage: number = 10,
                 public loadEnd: boolean = false
@@ -26,7 +26,7 @@ export class PostListStore {
     }
 
 
-    static makeImgSrc(model: PostModel): string {
+    static makeImgSrc(model: PostDto): string {
         const imageUrl = model.body.match(/!\[[^\]]*\]\((.*?)\)/)
         if (imageUrl === null) return "/images/login-bg.jpg"
         return imageUrl[1]

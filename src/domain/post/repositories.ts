@@ -1,5 +1,5 @@
 import Repository from "@/domain/infra/repository";
-import restCall, {RestResponse} from "@/infra/rest-call";
+import restCall, {buildRestCallOption, RestCallOption, RestResponse} from "@/infra/rest-call";
 import {CustomError} from "@/infra/errors";
 
 
@@ -21,16 +21,16 @@ export interface SearchPostList {
     title?: string
 }
 
-export interface PostUser {
+export interface PostUserDto {
     writerName: string
     writerEmail: string
 }
 
-export interface PostModel {
+export interface PostDto {
     id: string
     title: string
     body: string
-    writer: PostUser
+    writer: PostUserDto
     username: string
     createdAt: string
     updatedAt: string
@@ -40,11 +40,16 @@ export interface PostModel {
 
 
 export interface PostListRes {
-    posts: PostModel[]
+    posts: PostDto[]
 }
 
 export interface PostRes {
-    post: PostModel
+    post: PostDto
+}
+
+export interface SetDeletedPostReq {
+    deleted: boolean
+    id: string
 }
 
 export class PostRepository extends Repository {
@@ -70,6 +75,13 @@ export class PostRepository extends Repository {
         throw new FailCreatePost()
     }
 
+    async setDeletedPost(req: SetDeletedPostReq, accessKey: string) {
+        const url = this.getBaseUrl() + "/post/set-delete"
+        const res = await restCall.put<SetDeletedPostReq, null>(url, req,
+            {bearerToken: accessKey})
+
+        if (!res.ok) throw new FailSetDeletePost()
+    }
 
     async searchPostList(searchList: SearchPostList): Promise<PostListRes> {
         let {tags, curPage, perPage, title} = searchList
@@ -82,7 +94,7 @@ export class PostRepository extends Repository {
         if (title && title?.length >= 2) {
             url += "&title=" + title
         }
-        const res: RestResponse<PostListRes> = await restCall.get(url)
+        const res: RestResponse<PostListRes> = await restCall.get(url, {revalidate: 60})
         return res.data!!
     }
 
@@ -114,5 +126,11 @@ class FailDeleteTag extends CustomError {
 class FailCreatePost extends CustomError {
     constructor() {
         super("FailCreatePost", "포스팅 실패 했습니다.");
+    }
+}
+
+class FailSetDeletePost extends CustomError {
+    constructor() {
+        super("FailCreatePost", "포스팅 삭제 실패했습니다.");
     }
 }
