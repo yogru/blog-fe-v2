@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import {observer} from "mobx-react-lite";
 
 import {PostWriteStore} from "@/domain/post/store/post-write";
-import ToastEditor from "@/components/toast/editor";
-import TagEditor from "@/observer/post/tag-editor";
+import ToastEditor from "@/components/base/toast/editor";
+import TagEditor from "@/components/observing/post/tag-editor";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 

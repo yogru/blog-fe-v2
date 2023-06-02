@@ -1,7 +1,7 @@
 import {ViewItem} from "@/infra/generic-type";
 import React, {useState} from "react";
 
-import ChipList from "@/components/chip/chip-list";
+import ChipList from "@/components/base/chip/chip-list";
 
 export type Props = {
     chips: ViewItem[]

@@ -1,6 +1,6 @@
 'use client'
 
-import Card from "@/components/card/card";
+import Card from "@/components/base/card/card";
 import {PostListStore} from "@/domain/post/store/post-list-store";
 import {useEffect, useState} from "react";
 import {PostModel} from "@/domain/post/repositories";

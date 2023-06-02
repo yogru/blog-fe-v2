@@ -1,8 +1,8 @@
-import MenuObserver from "@/observer/menu";
+import MenuObserver from "../components/observing/menu";
 import menuStore from "@/domain/menu/stores";
 
 import postListStore from "@/domain/post/store/post-list-store";
-import PostHomeList from "@/observer/post/post-home-list";
+import PostHomeList from "@/components/observing/post/post-home-list";
 import postRepository from "@/domain/post/repositories";
 
 export default async function Home() {

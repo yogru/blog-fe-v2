@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import {MyTheme} from "@/infra/hooks/useMyTheme";
-import {ThemeToggleIcon, TagIcon, SeriesIcon} from "@/components/menu/head-icon";
+import {ThemeToggleIcon, TagIcon, SeriesIcon} from "@/components/base/menu/head-icon";
 
 
 export type Props = {

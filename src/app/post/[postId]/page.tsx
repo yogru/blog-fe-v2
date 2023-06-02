@@ -1,9 +1,9 @@
 import postRepository from "@/domain/post/repositories";
 import {notFound} from "next/navigation";
-import PostViewerBody from "@/observer/post/post-viewer";
-import MenuObserver from "@/observer/menu";
-import Footer from "@/components/footer";
-import PostViewerObserver from "@/observer/post/post-viewer";
+import PostViewerBody from "@/components/template/post-viewer";
+import MenuObserver from "../../../components/observing/menu";
+import Footer from "../../../components/base/footer";
+import PostViewerObserver from "@/components/template/post-viewer";
 
 type Props = {
     params: {

@@ -1,5 +1,5 @@
 import {ViewItem} from "@/infra/generic-type";
-import ChipItem from "@/components/chip/chip-item";
+import ChipItem from "@/components/base/chip/chip-item";
 import {useCallback, useEffect} from "react";
 
 export type Props = {

@@ -1,7 +1,7 @@
 "use client"
 
 import {SnackbarProvider} from "notistack";
-import LoginBoxObserver from "@/observer/login/login-box";
+import LoginBoxObserver from "@/components/observing/login/login-box";
 import {loginStore} from "@/domain/user/stores";
 
 export default function LoginPage() {
