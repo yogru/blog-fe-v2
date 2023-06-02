@@ -2,17 +2,16 @@ import React, {useEffect, useState} from "react";
 
 export type Props = {
     isLoaded: boolean
-    /***
-     * 값을 주면 클라이언트에서 해당 초만큼 늦게 로딩 된다.
-     * */
-    clientLazySecond?: number
+    minHeight: string
     children: React.ReactNode
 }
 
-function LoadingView() {
-
+function LoadingView({minHeight}: { minHeight: string }) {
+    const minHeightTailwind = `min-h-[${minHeight}]`
+    const rootClassName = "animate-pulse relative w-full bg-gray-200 rounded " + minHeightTailwind
     return (
-        <div className="animate-pulse relative w-full h-full min-h-[48px] bg-gray-200 rounded">
+        <div className={rootClassName}>
+
             <div role="status" className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                 <svg aria-hidden="true"
                      className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -32,23 +31,5 @@ function LoadingView() {
 
 
 export default function LoadingBox(props: Props) {
-    const [isLoaded, setLoaded] = useState<boolean>(props.isLoaded)
-
-    useEffect(() => {
-        setLoaded(props.isLoaded)
-    }, [props.isLoaded])
-
-
-    useEffect(() => {
-        if (props.clientLazySecond !== null) {
-            const timer = setTimeout(() => {
-                setLoaded(true)
-            }, 1000 * props.clientLazySecond!!)
-            return () => {
-                clearTimeout(timer)
-            }
-        }
-    }, [props.clientLazySecond])
-
-    return isLoaded ? <>{props.children}</> : <LoadingView/>
+    return props.isLoaded ? <>{props.children}</> : <LoadingView minHeight={props.minHeight}/>
 }

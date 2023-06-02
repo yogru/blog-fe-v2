@@ -1,6 +1,6 @@
 "use client"
 import dynamic from "next/dynamic";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import {PostModel} from "@/domain/post/repositories";
 import ToastViewer from "@/components/toast/viewer";
@@ -8,6 +8,10 @@ import {showJavaLocalDataToYYYYMMDD} from "@/infra/time-string";
 import ChipList from "@/components/chip/chip-list";
 import {ViewItem} from "@/infra/generic-type";
 import LoadingBox from "@/components/loading-box";
+import Footer from "@/components/footer";
+import MenuObserver from "@/observer/menu";
+import useClientSide from "@/infra/hooks/useClientSide";
+import useMyTimer from "@/infra/hooks/useMyTimer";
 
 
 type Props = {
@@ -17,7 +21,7 @@ type Props = {
 const NoSSrPostViewer = dynamic(() => import("@/components/toast/viewer"), {ssr: false})
 
 
-function HeadComponent({title, writerName, createdAt, updatedAt, tags}: {
+function BodyHeader({title, writerName, createdAt, updatedAt, tags}: {
     title: string,
     writerName: string,
     createdAt: string,
@@ -43,33 +47,499 @@ function HeadComponent({title, writerName, createdAt, updatedAt, tags}: {
     )
 }
 
-function BodyComponent({content}: { content: string }) {
+function BodyContent({isLoaded, content}: { isLoaded: boolean, content: string }) {
 
+    const tempContent = "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" + "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowManiahttps://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "https://github.com/WindowMania" +
+        "" +
+        "" +
+        ""
+    console.log("에엥?", isLoaded)
     return (
         <div className={"mt-4"}>
-            <div className={"h-[960px]"}>
-                <LoadingBox isLoaded={false} clientLazySecond={2}>
-                    <NoSSrPostViewer content={content}/>
+            <div className={"min-h-[90rem]"}>
+                <LoadingBox isLoaded={isLoaded} minHeight={"90rem"}>
+                    <NoSSrPostViewer content={tempContent}/>
                 </LoadingBox>
             </div>
         </div>
     )
 }
 
-export default function PostViewerObserver(props: Props) {
-    const [post, setPost] = useState<PostModel>(props.post)
-    return (
 
+type PostViewerBodyProps = {
+    title: string,
+    writerName: string,
+    createdAt: string,
+    updatedAt: string,
+    tags: string[],
+    body: string,
+    isLoaded: boolean
+}
+
+export function PostViewerBody(props: PostViewerBodyProps) {
+    const {
+        title,
+        writerName,
+        createdAt,
+        updatedAt,
+        tags,
+        body,
+        isLoaded
+    } = props
+    return (
         <div className={"flex flex-col divide-y-2"}>
             <div>
-                <HeadComponent title={post.title}
-                               writerName={post.writer.writerName!!}
-                               createdAt={post.createdAt}
-                               updatedAt={post.updatedAt} tags={post.tags}/>
+                <BodyHeader title={title}
+                            writerName={writerName}
+                            createdAt={createdAt}
+                            updatedAt={updatedAt}
+                            tags={tags}
+                />
+            </div>
+            <div className={"mt-1"}>
+                <BodyContent content={body} isLoaded={isLoaded}/>
+            </div>
+        </div>
+    )
+}
+
+
+export default function PostViewerObserver(props: Props) {
+    // 일부러 지연시킴.
+    const {isEndTimer} = useMyTimer({second: 2})
+    const [post,] = useState(props.post)
+
+    return (
+        <div>
+            <div>
+                <MenuObserver/>
             </div>
 
-            <div className={"mt-1"}>
-                <BodyComponent content={post.body}/>
+            <div className={"flex pt-8 mb-[80px] min-h-[100%] h-auto"}>
+                <div className={"w-[64rem] ml-auto mr-auto"}>
+                    <PostViewerBody
+                        title={post.title}
+                        body={post.body}
+                        tags={post.tags}
+                        writerName={post.writer.writerName}
+                        createdAt={post.createdAt}
+                        updatedAt={post.updatedAt}
+                        isLoaded={isEndTimer}
+                    />
+                </div>
+            </div>
+
+            <div>
+                <Footer/>
             </div>
         </div>
     )
