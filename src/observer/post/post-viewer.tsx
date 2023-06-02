@@ -52,7 +52,6 @@ function BodyComponent({content}: { content: string }) {
                     <NoSSrPostViewer content={content}/>
                 </LoadingBox>
             </div>
-
         </div>
     )
 }
