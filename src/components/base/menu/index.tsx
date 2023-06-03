@@ -2,7 +2,14 @@
 
 import Image from 'next/image';
 import {MyTheme} from "@/infra/hooks/useMyTheme";
-import {ThemeToggleIcon, TagIcon, SeriesIcon, WritePostIcon, UserIcon} from "@/components/base/menu/head-icon";
+import {
+    ThemeToggleIcon,
+    TagIcon,
+    SeriesIcon,
+    WritePostIcon,
+    UserIcon,
+    LogoutIcon
+} from "@/components/base/menu/head-icon";
 
 
 export type Props = {
@@ -15,16 +22,19 @@ export type Props = {
     onClickLogo: () => Promise<void>
     onClickWriteIcon: () => Promise<void>
     onClickUserIcon: () => Promise<void>
+    onClickLogout: () => Promise<void>
 }
 
 const rootCls: string = "sticky flex w-full h-20 border-b-2"
 const itemCls: string = "flex hover:cursor-pointer text-2xl rounded mt-auto mb-auto"
-const logoItemCls = itemCls + " " + "font-extrabold ml-4"
-const themeItemCls = itemCls + " " + "ml-auto mr-4"
-const tagItemCls = itemCls + " " + "mr-4"
-const seriesItemCls = itemCls + " " + "mr-4"
+const logoItemCls: string = itemCls + " " + "font-extrabold ml-4"
+const themeItemCls: string = itemCls + " " + "ml-auto mr-4"
+const tagItemCls: string = itemCls + " " + "mr-4"
+const seriesItemCls: string = itemCls + " " + "mr-4"
 const writeItemCls: string = itemCls + " " + "ml-4"
 const userItemCls: string = itemCls + " " + "ml-4"
+const logoutItemCls: string = itemCls + " " + "mr-4"
+
 export default function Menu(props: Props) {
     const logoString = props.logoString || "blog.kyb"
 
@@ -36,7 +46,7 @@ export default function Menu(props: Props) {
             </div>
 
             {
-                props.isLogin &&
+                !props.isLogin &&
                 <div className={userItemCls}>
                     <UserIcon onClick={props.onClickUserIcon}/>
                 </div>
@@ -61,7 +71,12 @@ export default function Menu(props: Props) {
             <div className={seriesItemCls}>
                 <SeriesIcon onClick={props.onClickSeriesIcon}/>
             </div>
-
+            {
+                props.isLogin &&
+                <div className={logoutItemCls}>
+                    <LogoutIcon onClick={props.onClickLogout}/>
+                </div>
+            }
         </div>
     )
 }

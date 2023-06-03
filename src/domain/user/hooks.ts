@@ -1,15 +1,16 @@
-import {UserStore} from "@/domain/user/stores";
+import {LoginStore} from "@/domain/user/stores";
 import {useEffect} from "react";
 
 
-export const userStore = new UserStore()
+const loginStore: LoginStore = new LoginStore()
 
-export function useUserStore() {
+export function useLoginStore() {
     useEffect(() => {
-        userStore.initialize().then()
+        loginStore.initialize().then()
     }, [])
 
     return {
-        userStore
+        loginStore
     }
 }
+

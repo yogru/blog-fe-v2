@@ -4,7 +4,7 @@
 import MenuObserver from "@/components/observing/menu";
 
 import {useEffect} from "react";
-import {useUserStore} from "@/domain/user/hooks";
+import {useLoginStore} from "@/domain/user/hooks";
 import PostWriterObserver from "@/components/observing/post/writer";
 import {usePostWriteStore} from "@/domain/post/hooks";
 import NoAuthorized from "@/components/base/no-authorized";
@@ -14,16 +14,16 @@ import useMyTimer from "@/infra/hooks/useMyTimer";
 export type Props = {}
 
 export default function PostWriteTemplate(props: Props) {
-    const {userStore} = useUserStore()
+    const {loginStore} = useLoginStore()
     const {postWriteStore} = usePostWriteStore()
     const {isEndTimer} = useMyTimer({second: 2})
 
     return (
         <>
-            <MenuObserver userStore={userStore}/>
+            <MenuObserver loginStore={loginStore}/>
             <div className={"flex pt-8 pl-36 pr-36"}>
-                <LoadingBox isLoaded={isEndTimer && userStore.isInit} minHeight={"90rem"}>
-                    <NoAuthorized isAuthorized={userStore.isLogin}>
+                <LoadingBox isLoaded={isEndTimer && loginStore.isInit} minHeight={"90rem"}>
+                    <NoAuthorized isAuthorized={loginStore.isLogin}>
                         <PostWriterObserver postStore={postWriteStore}/>
                     </NoAuthorized>
                 </LoadingBox>

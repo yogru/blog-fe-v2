@@ -12,11 +12,10 @@ import Footer from "../base/footer";
 import MenuObserver from "../observing/menu";
 
 import useMyTimer from "@/infra/hooks/useMyTimer";
-import {UserStore} from "@/domain/user/stores";
 import {PostEditStore} from "@/domain/post/store/post-edit";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
-
+import {useLoginStore} from "@/domain/user/hooks";
 
 type Props = {
     post: PostDto
@@ -123,15 +122,14 @@ export function PostViewerBody(props: PostViewerBodyProps) {
 
 export default function PostViewerObserver(props: Props) {
     // 일부러 지연시킴.
-    const {isEndTimer} = useMyTimer({second: 2})
+    const {isEndTimer} = useMyTimer({second: 1})
     const {gotoHome, gotoEditPost} = useBlogRouter()
     const [post,] = useState(props.post)
-    const [userStore,] = useState<UserStore>(new UserStore())
+    const {loginStore} = useLoginStore()
+
     const [postEditStore,] = useState<PostEditStore>(new PostEditStore(props.post))
     const {upErrorSnackbar} = useMySnackbar()
-    useEffect(() => {
-        userStore.initialize().then()
-    }, [userStore])
+
 
     async function onDelete(postId: string) {
         try {
@@ -150,7 +148,7 @@ export default function PostViewerObserver(props: Props) {
     return (
         <div>
             <div>
-                <MenuObserver userStore={userStore}/>
+                <MenuObserver loginStore={loginStore}/>
             </div>
 
             <div className={"flex pt-8 mb-[80px] min-h-[100%] h-auto"}>
@@ -164,7 +162,7 @@ export default function PostViewerObserver(props: Props) {
                         createdAt={post.createdAt}
                         updatedAt={post.updatedAt}
                         isLoaded={isEndTimer}
-                        isLogin={userStore.isLogin}
+                        isLogin={loginStore.isLogin}
                         onEdit={onEdit}
                         onDelete={onDelete}
                     />

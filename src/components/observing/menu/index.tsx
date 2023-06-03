@@ -4,17 +4,17 @@ import {observer} from "mobx-react-lite";
 
 import Menu from "../../base/menu";
 import useMyTheme, {MyTheme} from "@/infra/hooks/useMyTheme";
-import {UserStore} from "@/domain/user/stores";
+import {LoginStore} from "@/domain/user/stores";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 
 export type Props = {
-    userStore: UserStore
+    loginStore: LoginStore
 }
 
 const MenuObserver = observer((props: Props) => {
     const {theme, setTheme} = useMyTheme()
     const {gotoHome, gotoWritePost, gotoLogin} = useBlogRouter()
-    const userStore = props.userStore
+    const loginStore = props.loginStore
 
     function toggleTheme(t: MyTheme) {
         if (t === 'light') {
@@ -44,9 +44,15 @@ const MenuObserver = observer((props: Props) => {
         await gotoLogin()
     }
 
+    async function onClickLogout() {
+        console.log("어잉>")
+        await loginStore.logout()
+        await gotoHome()
+    }
+
     return (
         <Menu
-            isLogin={userStore.isLogin}
+            isLogin={loginStore.isLogin}
             logoString={"blog.kyb"}
             theme={theme}
             onClickWriteIcon={onClickWritePost}
@@ -55,6 +61,7 @@ const MenuObserver = observer((props: Props) => {
             onClickTagIcon={onClickTag}
             onClickSeriesIcon={onClickSeries}
             onClickUserIcon={onClickLoginIcon}
+            onClickLogout={onClickLogout}
         />
     )
 })

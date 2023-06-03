@@ -1,13 +1,6 @@
-"use client"
-
 import {SnackbarProvider} from "notistack";
-import LoginBoxObserver from "@/components/observing/login/login-box";
-import {loginStore} from "@/domain/user/stores";
+import LoginTemplate from "@/components/template/login";
 
 export default function LoginPage() {
-    return (
-        <SnackbarProvider maxSnack={3}>
-            <LoginBoxObserver loginService={loginStore}/>
-        </SnackbarProvider>
-    )
+    return (<LoginTemplate/>)
 }

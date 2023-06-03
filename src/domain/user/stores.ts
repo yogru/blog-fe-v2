@@ -15,12 +15,30 @@ export class LoginStore {
     isLogin: boolean
     email: string
     password: string
+    isInit: boolean
+    accessKey: string | null
 
     constructor() {
+        this.isInit = false
         this.isLogin = false
         this.email = ''
         this.password = ''
+        this.accessKey = null
         makeAutoObservable(this)
+    }
+
+    async initialize() {
+        if (this.isInit) return
+        let accessKey: string | null = null
+        // 일단 간단하게 구현.
+        if (typeof window !== 'undefined') {
+            accessKey = window.localStorage.getItem("accessKey")
+        }
+        runInAction(() => {
+            this.isInit = true
+            this.isLogin = true
+            this.accessKey = accessKey
+        })
     }
 
     onChangePassword(password: string) {
@@ -46,6 +64,15 @@ export class LoginStore {
         }
     }
 
+
+    async logout() {
+        console.log("어엉??")
+        localStorage.setItem('accessKey', '')
+        runInAction(() => {
+            this.isLogin = false
+        })
+    }
+
     private checkEmail() {
         const emailReg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         if (!emailReg.test(this.email)) {
@@ -62,34 +89,30 @@ export class LoginStore {
 }
 
 
-export const loginStore = new LoginStore()
-
-
-export class UserStore {
-    constructor(
-        public isInit: boolean = false,
-        public writerName: string | null = null,
-        public accessKey: string | null = null
-    ) {
-        makeAutoObservable(this)
-    }
-
-    get isLogin() {
-        return this.accessKey !== null
-    }
-
-    async initialize() {
-        if (this.isInit) return
-
-        let accessKey: string | null = null
-        // 일단 간단하게 구현.
-        if (typeof window !== 'undefined') {
-            accessKey = window.localStorage.getItem("accessKey")
-        }
-
-        runInAction(() => {
-            this.isInit = true
-            this.accessKey = accessKey
-        })
-    }
-}
+// export class UserStore {
+//     constructor(
+//         public isInit: boolean = false,
+//         public writerName: string | null = null,
+//         public accessKey: string | null = null
+//     ) {
+//         makeAutoObservable(this)
+//     }
+//
+//     get isLogin() {
+//         return this.accessKey !== null
+//     }
+//
+//     async initialize() {
+//         if (this.isInit) return
+//
+//         let accessKey: string | null = null
+//         // 일단 간단하게 구현.
+//         if (typeof window !== 'undefined') {
+//             accessKey = window.localStorage.getItem("accessKey")
+//         }
+//         runInAction(() => {
+//             this.isInit = true
+//             this.accessKey = accessKey
+//         })
+//     }
+// }
