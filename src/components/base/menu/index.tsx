@@ -10,6 +10,7 @@ import {
     UserIcon,
     LogoutIcon
 } from "@/components/base/menu/head-icon";
+import NanumMyeongjoFont from "@/components/base/font/nanum-myeongjo";
 
 
 export type Props = {
@@ -42,7 +43,9 @@ export default function Menu(props: Props) {
         <div className={rootCls}>
             <div className={logoItemCls} onClick={props.onClickLogo}>
                 <Image src={"/images/pizza-48.png"} alt={"blog-logo"} width={48} height={48}/>
-                <div className={"mt-1 ml-1 text-4xl"}>{logoString}</div>
+                <NanumMyeongjoFont>
+                    <div className={"mt-1 ml-1 text-4xl"}>{logoString}</div>
+                </NanumMyeongjoFont>
             </div>
 
             {
