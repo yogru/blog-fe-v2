@@ -6,28 +6,19 @@ import {useEffect, useState} from "react";
 import {PostDto} from "@/domain/post/repositories";
 import useMyScroll from "@/infra/hooks/useMyScroll";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
+import {observer} from "mobx-react-lite";
 
 export type Props = {
-    list: PostDto []
+    postListStore: PostListStore
 }
 
-
-export default function PostHomeCardListObserver(props: Props) {
+const PostHomeCardListObserver = observer((props:Props)=>{
     const {gotoPost} = useBlogRouter()
-    // ssr warring 때문에 따로 데이터 뺴놓음.
-    const [list, setList] = useState<PostDto[]>(props.list)
-    const [store, setStore] = useState<PostListStore | null>(null)
     const {isReached} = useMyScroll()
-    useEffect(() => {
-        if (store === null) {
-            setStore(new PostListStore(list))
-        }
-    }, [list, store])
+    const {postListStore} = props
 
     useEffect(() => {
-        store?.nextLoad().then(() => {
-            setList(store!!.cards)
-        })
+        postListStore.nextLoad().then()
     }, [isReached])
 
     async function onClick(id: string) {
@@ -37,7 +28,7 @@ export default function PostHomeCardListObserver(props: Props) {
     return (
         <div className={"flex w-full flex-wrap"}>
             {
-                list.map(c =>
+                postListStore.posts.map(c =>
                     <div key={c.id} className={"mr-16 mb-16"}>
                         <Card key={c.id}
                               imgSrc={PostListStore.makeImgSrc(c)}
@@ -52,4 +43,6 @@ export default function PostHomeCardListObserver(props: Props) {
             }
         </div>
     )
-}
+})
+
+export default PostHomeCardListObserver
