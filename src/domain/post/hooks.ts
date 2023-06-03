@@ -1,6 +1,7 @@
 import {PostWriteStore} from "@/domain/post/store/post-write";
 import {useEffect} from "react";
 import {PostListStore, PostListStoreInitContext} from "@/domain/post/store/post-list-store";
+import useMyScroll from "@/infra/hooks/useMyScroll";
 
 export const postWriteStore = new PostWriteStore()
 
@@ -21,4 +22,16 @@ export function usePostListStore(ctx: PostListStoreInitContext) {
     return {
         postListStore
     }
+}
+
+
+export function usePostListStoreWithScroll(ctx: PostListStoreInitContext) {
+    const {postListStore} = usePostListStore(ctx)
+
+    const {isReached} = useMyScroll()
+    useEffect(() => {
+        postListStore.nextLoad().then()
+    }, [isReached, postListStore])
+
+    return {postListStore}
 }

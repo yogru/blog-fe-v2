@@ -15,7 +15,7 @@ const PostHorizonCardList = observer((props: Props) => {
         <div className={"flex flex-col"}>
             {postListStore.posts.map(p => {
                 return (
-                    <div key={p.id} className={"mb-4"}>
+                    <div key={p.id} className={"mb-8"}>
                         <HorizonCard href={"#"}
                                      imgSrc={PostListStore.makeImgSrc(p)}
                                      title={p.title}

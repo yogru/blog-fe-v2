@@ -12,14 +12,9 @@ export type Props = {
     postListStore: PostListStore
 }
 
-const PostCardListObserver = observer((props:Props)=>{
+const PostCardListObserver = observer((props: Props) => {
     const {gotoPost} = useBlogRouter()
-    const {isReached} = useMyScroll()
     const {postListStore} = props
-
-    useEffect(() => {
-        postListStore.nextLoad().then()
-    }, [isReached])
 
     async function onClick(id: string) {
         await gotoPost(id)

@@ -2,7 +2,7 @@
 
 import {useLoginStore} from "@/domain/user/hooks";
 import MenuObserver from "@/components/observing/menu";
-import {usePostListStore} from "@/domain/post/hooks";
+import {usePostListStore, usePostListStoreWithScroll} from "@/domain/post/hooks";
 import TagViewerObserver from "@/components/observing/post/tag-viewer";
 import PostListFooterObserver from "@/components/observing/footer/post-list-footer";
 import {PostListStoreInitContext} from "@/domain/post/store/post-list-store";
@@ -14,7 +14,7 @@ export type Props = {
 
 export default function PostTagListTemplate(props: Props) {
     const {loginStore} = useLoginStore()
-    const {postListStore} = usePostListStore(props.initCtx)
+    const {postListStore} = usePostListStoreWithScroll(props.initCtx)
 
     return (
         <>
