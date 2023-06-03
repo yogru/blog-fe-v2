@@ -32,34 +32,44 @@ export function useBlogRouter(props?: Props) {
         return router.replace(url)
     }, [router])
 
+    async function goto(url: string, replace?: boolean) {
+        if (replace) {
+            await router.replace(url)
+        }
+        await router.push(url)
+    }
 
     async function gotoPost(id: string, replace?: boolean) {
-        const baseUrl: string = "/post"
-        if (replace) {
-            return router.replace(baseUrl + "/" + id)
-        }
-        return router.push(baseUrl + "/" + id)
+        const url: string = "/post/" + id
+        await goto(url, replace)
     }
 
     async function gotoHome(replace?: boolean) {
-        if (replace) {
-            return router.replace('/')
-        }
-        return router.push("/")
+        await goto("/", replace)
     }
+
 
     async function gotoEditPost(postId: string, replace?: boolean) {
         const url = "/"
-        if (replace) {
-            return router.replace(url)
-        }
-        return router.push(url)
+        await goto(url, replace)
+    }
+
+    async function gotoWritePost(replace?: boolean) {
+        const url = "/post/write"
+        await goto(url, replace)
+    }
+
+    async function gotoLogin(replace?: boolean) {
+        const url = "/login"
+        await goto(url, replace)
     }
 
     return {
         push, replace,
         gotoPost,
         gotoHome,
-        gotoEditPost
+        gotoEditPost,
+        gotoWritePost,
+        gotoLogin
     }
 }

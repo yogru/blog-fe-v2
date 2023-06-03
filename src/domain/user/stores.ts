@@ -67,7 +67,7 @@ export const loginStore = new LoginStore()
 
 export class UserStore {
     constructor(
-        public isLoaded: boolean = false,
+        public isInit: boolean = false,
         public writerName: string | null = null,
         public accessKey: string | null = null
     ) {
@@ -79,6 +79,8 @@ export class UserStore {
     }
 
     async initialize() {
+        if (this.isInit) return
+
         let accessKey: string | null = null
         // 일단 간단하게 구현.
         if (typeof window !== 'undefined') {
@@ -86,7 +88,7 @@ export class UserStore {
         }
 
         runInAction(() => {
-            this.isLoaded = true
+            this.isInit = true
             this.accessKey = accessKey
         })
     }
