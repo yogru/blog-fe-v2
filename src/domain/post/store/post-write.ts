@@ -90,11 +90,6 @@ export class PostWriteStore {
 }
 
 
-const postWriteStore = new PostWriteStore()
-
-export default postWriteStore
-
-
 // errors
 class InvalidNewTag extends CustomError {
     constructor(message: string) {

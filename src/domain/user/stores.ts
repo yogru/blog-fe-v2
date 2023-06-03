@@ -1,5 +1,5 @@
-import {flow, makeAutoObservable, runInAction} from "mobx";
-import userRepository, {AccessToken} from '@/domain/user/repositories'
+import {makeAutoObservable, runInAction} from "mobx";
+import userRepository from '@/domain/user/repositories'
 import {CustomError} from "@/infra/errors";
 import {Result} from "@/infra/generic-type";
 

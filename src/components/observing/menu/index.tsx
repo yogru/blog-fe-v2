@@ -2,7 +2,6 @@
 
 import {observer} from "mobx-react-lite";
 
-import {MenuStore} from "@/domain/menu/stores";
 import Menu from "../../base/menu";
 import useMyTheme, {MyTheme} from "@/infra/hooks/useMyTheme";
 import {UserStore} from "@/domain/user/stores";

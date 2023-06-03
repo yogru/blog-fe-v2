@@ -13,7 +13,7 @@ type Props = {
 }
 
 // styles
-const root: string = 'w-screen flex flex-col pt-16 pl-36 pr-36'
+const root: string = 'w-screen flex flex-col'
 const item: string = 'flex mb-4 w-full'
 const submit: string = 'block shadow-lg rounded w-32 h-10 bg-indigo-600 text-amber-50'
 const title: string = 'rounded w-full h-12 border-2 p-4'
