@@ -3,12 +3,6 @@ import {useCallback} from "react";
 
 type Goto = "HOME" | "READ_POST"
 
-type Props = {}
-
-type UrlOption = {
-    path: any
-    param: any
-}
 
 function getBaseUrl(goto: Goto): string {
     switch (goto) {
@@ -20,7 +14,7 @@ function getBaseUrl(goto: Goto): string {
     }
 }
 
-export function useBlogRouter(props?: Props) {
+export function useBlogRouter() {
     const router = useRouter()
     const push = useCallback(async (goto: Goto, opt?: any) => {
         const url = getBaseUrl(goto)

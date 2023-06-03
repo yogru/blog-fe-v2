@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {EnvironmentError} from "@/infra/errors";
 
 export type MyTheme = "dark" | "light"
 
@@ -27,6 +26,7 @@ export default function useMyTheme() {
         //   throw new EnvironmentError()
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     function setTheme(t: MyTheme) {
         if (typeof window !== undefined) {
             window.localStorage.setItem("theme", t)

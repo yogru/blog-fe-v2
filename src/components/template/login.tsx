@@ -5,8 +5,7 @@ import {useLoginStore} from "@/domain/user/hooks";
 import LoginBoxObserver from "@/components/observing/login/login-box";
 
 
-export type Props = {}
-export default function LoginTemplate(props: Props) {
+export default function LoginTemplate() {
     const {loginStore} = useLoginStore()
     return (
         <SnackbarProvider maxSnack={3}>

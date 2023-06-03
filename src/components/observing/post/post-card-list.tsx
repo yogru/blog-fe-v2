@@ -1,12 +1,10 @@
 'use client'
+import {observer} from "mobx-react-lite";
 
 import Card from "@/components/base/card/card";
 import {PostListStore} from "@/domain/post/store/post-list-store";
-import {useEffect, useState} from "react";
-import {PostDto} from "@/domain/post/repositories";
-import useMyScroll from "@/infra/hooks/useMyScroll";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
-import {observer} from "mobx-react-lite";
+
 
 export type Props = {
     postListStore: PostListStore

@@ -3,7 +3,7 @@
 
 import MenuObserver from "@/components/observing/menu";
 
-import {useEffect} from "react";
+
 import {useLoginStore} from "@/domain/user/hooks";
 import PostWriterObserver from "@/components/observing/post/writer";
 import {usePostWriteStore} from "@/domain/post/hooks";
@@ -11,9 +11,7 @@ import NoAuthorized from "@/components/base/no-authorized";
 import LoadingBox from "@/components/base/loading-box";
 import useMyTimer from "@/infra/hooks/useMyTimer";
 
-export type Props = {}
-
-export default function PostWriteTemplate(props: Props) {
+export default function PostWriteTemplate() {
     const {loginStore} = useLoginStore()
     const {postWriteStore} = usePostWriteStore()
     const {isEndTimer} = useMyTimer({second: 2})

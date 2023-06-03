@@ -1,5 +1,5 @@
 import Repository from "@/domain/infra/repository";
-import restCall, {buildRestCallOption, RestCallOption, RestResponse} from "@/infra/rest-call";
+import restCall, { RestResponse} from "@/infra/rest-call";
 import {CustomError} from "@/infra/errors";
 
 

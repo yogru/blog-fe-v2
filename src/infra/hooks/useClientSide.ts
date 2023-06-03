@@ -11,7 +11,6 @@ export default function useClientSide() {
         } else {
             setClient(false)
         }
-    }, [window])
-
+    }, [])
     return {isClient}
 }

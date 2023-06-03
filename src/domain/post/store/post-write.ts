@@ -1,4 +1,4 @@
-import {makeAutoObservable, flow, runInAction} from "mobx"
+import {makeAutoObservable, runInAction} from "mobx"
 import postRepository from "@/domain/post/repositories";
 import userRepository from "@/domain/user/repositories";
 import {CustomError} from "@/infra/errors";
@@ -53,7 +53,7 @@ export class PostWriteStore {
         try {
             checkDeleteTag(tagName)
             const accessKey = userRepository.getAccessKey()
-            const res = await postRepository.deleteTag(tagName, accessKey)
+            await postRepository.deleteTag(tagName, accessKey)
             runInAction(removeTag)
             return {success: true, message: "태그 삭제 성공 했습니다."}
         } catch (e) {
@@ -76,7 +76,7 @@ export class PostWriteStore {
             checkContent()
             checkTitle()
             const accessKey = userRepository.getAccessKey()
-            const res = await postRepository.createPost({
+            await postRepository.createPost({
                 body: content,
                 title: this.title,
                 tags: this.tags,

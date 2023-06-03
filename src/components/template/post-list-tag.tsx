@@ -2,7 +2,7 @@
 
 import {useLoginStore} from "@/domain/user/hooks";
 import MenuObserver from "@/components/observing/menu";
-import {usePostListStore, usePostListStoreWithScroll} from "@/domain/post/hooks";
+import {usePostListStoreWithScroll} from "@/domain/post/hooks";
 import TagViewerObserver from "@/components/observing/post/tag-viewer";
 import PostListFooterObserver from "@/components/observing/footer/post-list-footer";
 import {PostListStoreInitContext} from "@/domain/post/store/post-list-store";
