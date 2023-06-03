@@ -13,7 +13,7 @@ export type Props = {
 
 const MenuObserver = observer((props: Props) => {
     const {theme, setTheme} = useMyTheme()
-    const {gotoHome, gotoWritePost, gotoLogin} = useBlogRouter()
+    const {gotoHome, gotoWritePost, gotoLogin, gotoPostListTag} = useBlogRouter()
     const loginStore = props.loginStore
 
     function toggleTheme(t: MyTheme) {
@@ -24,8 +24,9 @@ const MenuObserver = observer((props: Props) => {
         }
     }
 
-    function onClickTag(): Promise<void> {
-        return Promise.resolve()
+    async function onClickTag(): Promise<void> {
+        await gotoPostListTag()
+
     }
 
     function onClickSeries(): Promise<void> {
@@ -45,16 +46,15 @@ const MenuObserver = observer((props: Props) => {
     }
 
     async function onClickLogout() {
-        console.log("어잉>")
         await loginStore.logout()
         await gotoHome()
     }
 
     return (
         <Menu
+            theme={theme}
             isLogin={loginStore.isLogin}
             logoString={"blog.kyb"}
-            theme={theme}
             onClickWriteIcon={onClickWritePost}
             onToggleTheme={toggleTheme}
             onClickLogo={onClickLogo}

@@ -52,6 +52,15 @@ export interface SetDeletedPostReq {
     id: string
 }
 
+export interface TagStatisticsDto {
+    tag: string
+    count: number
+}
+
+export interface TagStatisticsRes {
+    tags: TagStatisticsDto[]
+}
+
 export class PostRepository extends Repository {
 
     async addTag(tag: string, accessKey: string) {
@@ -102,6 +111,15 @@ export class PostRepository extends Repository {
         const url = this.getBaseUrl() + "/post/" + id
         const res = await restCall.get<PostRes>(url)
         if (res.ok) return res.data
+    }
+
+    async getTagStatistics() {
+        const url = this.getBaseUrl() + "/post/tag/statistics"
+        const res = await restCall.get<TagStatisticsRes>(url)
+        if (res.ok) return res.data!!
+        return {
+            tags: []
+        }
     }
 }
 

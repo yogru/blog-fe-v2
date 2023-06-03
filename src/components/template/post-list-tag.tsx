@@ -4,16 +4,17 @@ import {useLoginStore} from "@/domain/user/hooks";
 import MenuObserver from "@/components/observing/menu";
 import {usePostListStore} from "@/domain/post/hooks";
 import TagViewerObserver from "@/components/observing/post/tag-viewer";
-import {PostDto} from "@/domain/post/repositories";
 import PostListFooterObserver from "@/components/observing/footer/post-list-footer";
+import {PostListStoreInitContext} from "@/domain/post/store/post-list-store";
+import PostHorizonCardList from "@/components/observing/post/post-horizon-card-list";
 
 export type Props = {
-    posts: PostDto[]
+    initCtx: PostListStoreInitContext
 }
 
 export default function PostTagListTemplate(props: Props) {
     const {loginStore} = useLoginStore()
-    const {postListStore} = usePostListStore({posts: props.posts, forceLoad: false})
+    const {postListStore} = usePostListStore(props.initCtx)
 
     return (
         <>
@@ -21,8 +22,12 @@ export default function PostTagListTemplate(props: Props) {
                 <MenuObserver loginStore={loginStore}/>
             </div>
 
-            <div className={"pt-8 pl-32 pr-32 pb-8 min-h-[90rem]"}>
+            <div className={"flex mt-8 mb-4 justify-center"}>
                 <TagViewerObserver postListStore={postListStore}/>
+            </div>
+
+            <div className={"flex mt-8 mb-4 justify-center"}>
+                <PostHorizonCardList postListStore={postListStore}/>
             </div>
 
             <div>

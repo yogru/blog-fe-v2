@@ -1,23 +1,21 @@
 "use client"
-import {useEffect} from "react";
+
 
 import MenuObserver from "@/components/observing/menu"
-import PostHomeList from "@/components/observing/post/post-home-list";
-import {PostDto} from "@/domain/post/repositories";
+import PostCardListObserver from "@/components/observing/post/post-card-list";
 import {useLoginStore} from "@/domain/user/hooks";
-import Footer from "@/components/base/footer";
 import {usePostListStore} from "@/domain/post/hooks";
 import PostListFooterObserver from "@/components/observing/footer/post-list-footer";
+import {PostListStoreInitContext} from "@/domain/post/store/post-list-store";
 
 
 type Props = {
-    postList: PostDto[]
+    initCtx: PostListStoreInitContext
 }
 
 export default function HomeTemplate(props: Props) {
     const {loginStore} = useLoginStore()
-    const {postListStore} = usePostListStore({posts: props.postList, forceLoad: false})
-
+    const {postListStore} = usePostListStore(props.initCtx)
 
     return (
         <>
@@ -26,7 +24,7 @@ export default function HomeTemplate(props: Props) {
             </div>
 
             <div className={"pt-12 pl-48 pr-32 min-h-[90rem]"}>
-                <PostHomeList postListStore={postListStore}/>
+                <PostCardListObserver postListStore={postListStore}/>
             </div>
 
             <div>

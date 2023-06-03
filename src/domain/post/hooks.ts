@@ -1,7 +1,6 @@
 import {PostWriteStore} from "@/domain/post/store/post-write";
 import {useEffect} from "react";
-import {PostListStore} from "@/domain/post/store/post-list-store";
-import {PostDto} from "@/domain/post/repositories";
+import {PostListStore, PostListStoreInitContext} from "@/domain/post/store/post-list-store";
 
 export const postWriteStore = new PostWriteStore()
 
@@ -15,14 +14,10 @@ export function usePostWriteStore() {
 }
 
 
-export function usePostListStore({posts = [], forceLoad = false}: {
-    posts: PostDto[],
-    forceLoad: boolean
-}) {
+export function usePostListStore(ctx: PostListStoreInitContext) {
     useEffect(() => {
-        forceLoad && postListStore.initialize(posts).then()
-        !forceLoad && postListStore.localInitialize(posts)
-    }, [])
+        postListStore.initialize(ctx).then()
+    }, [ctx])
     return {
         postListStore
     }

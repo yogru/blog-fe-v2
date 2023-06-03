@@ -1,9 +1,11 @@
 export class ViewItem {
     constructor(
         public readonly id: string,
-        public readonly viewValue: string
+        public readonly viewValue: string,
+        public selected: boolean = false
     ) {
     }
+
 }
 
 export type FailResult = {

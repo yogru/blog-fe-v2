@@ -13,7 +13,7 @@ export type Props = {
 
 
 export default function ChipList(props: Props) {
-    const blackList = props.blackList || ['All']
+    const blackList = props.blackList || []
     const chips = filterBlackList(props.chips, blackList)
 
     useEffect(() => {

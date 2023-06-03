@@ -12,7 +12,7 @@ export type Props = {
     postListStore: PostListStore
 }
 
-const PostHomeCardListObserver = observer((props:Props)=>{
+const PostCardListObserver = observer((props:Props)=>{
     const {gotoPost} = useBlogRouter()
     const {isReached} = useMyScroll()
     const {postListStore} = props
@@ -45,4 +45,4 @@ const PostHomeCardListObserver = observer((props:Props)=>{
     )
 })
 
-export default PostHomeCardListObserver
+export default PostCardListObserver

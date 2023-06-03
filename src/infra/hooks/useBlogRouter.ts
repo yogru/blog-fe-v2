@@ -64,12 +64,18 @@ export function useBlogRouter(props?: Props) {
         await goto(url, replace)
     }
 
+    async function gotoPostListTag(tags: string[] = [], replace?: boolean) {
+        const url = "/post/tags"
+        await goto(url, replace)
+    }
+
     return {
         push, replace,
         gotoPost,
         gotoHome,
         gotoEditPost,
         gotoWritePost,
-        gotoLogin
+        gotoLogin,
+        gotoPostListTag
     }
 }

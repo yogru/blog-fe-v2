@@ -1,5 +1,6 @@
 import {ViewItem} from "@/infra/generic-type";
 
+
 export type Props = {
     chip: ViewItem
     onDeleteChip?: (chipId: string) => Promise<void>
@@ -25,6 +26,18 @@ function DeleteButton({onDeleteChip}: { onDeleteChip: () => Promise<void> }) {
 }
 
 
+function makeChipStyle(isSelected: boolean, isClickable: boolean): string {
+    let base: string = "inline-flex items-center mb-2 px-2 py-1 mr-2 text-sm font-medium rounded"
+    let color: string = "bg-gray-200  dark:bg-blue-900 dark:text-blue-300"
+    if (isSelected) {
+        color = "bg-gray-400 dark:bg-blue-800 dark:text-blue-200"
+    }
+    if (isClickable) {
+        base += " hover:cursor-pointer"
+    }
+    return base + " " + color
+}
+
 export default function ChipItem(props: Props) {
     async function onDelete() {
         await props.onDeleteChip?.(props.chip.id)
@@ -36,7 +49,7 @@ export default function ChipItem(props: Props) {
 
     return (
         <span id="badge-dismiss-default"
-              className="inline-flex items-center mb-2 px-2 py-1 mr-2 text-sm font-medium  bg-gray-200 rounded dark:bg-blue-900 dark:text-blue-300">
+              className={makeChipStyle(props.chip.selected, props.onClickChip !== undefined)}>
             <div onClick={onClick}>
                 {props.chip.viewValue}
             </div>
