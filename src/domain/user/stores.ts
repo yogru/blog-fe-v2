@@ -66,7 +66,6 @@ export class LoginStore {
 
 
     async logout() {
-        console.log("어엉??")
         localStorage.setItem('accessKey', '')
         runInAction(() => {
             this.isLogin = false
