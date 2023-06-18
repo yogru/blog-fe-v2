@@ -1,5 +1,5 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import postRepository, {PostDto, TagStatisticsDto} from "@/domain/post/repositories";
+import postRepository, {PostDto, SearchPostList, TagStatisticsDto} from "@/domain/post/repositories";
 import {ViewItem} from "@/infra/generic-type";
 
 
@@ -48,7 +48,8 @@ export class PostListStore {
         if (this.loadEnd) return
         const list = await postRepository.searchPostList({
             curPage: this.page + 1,
-            perPage: this.perPage
+            perPage: this.perPage,
+            tags: this.selectedTag
         })
 
         runInAction(() => {
@@ -57,6 +58,7 @@ export class PostListStore {
             if (list.posts.length < this.perPage) this.loadEnd = true
         })
     }
+
 
     public async onSelectTag(tag: string) {
         const found = this.selectedTag.find((t) => t === tag)
@@ -67,7 +69,21 @@ export class PostListStore {
             }
             this.selectedTag = [...this.selectedTag, tag]
         })
-        // 새롭게 로딩 해줘야한다..
+        const list = await postRepository.searchPostList({
+            curPage: 1,
+            perPage: 10,
+            tags: this.selectedTag
+        })
+
+        runInAction(() => {
+            this.page = 1
+            this.perPage = 10
+            this.loadEnd = false
+            this.posts = [...list.posts]
+            if (list.posts.length < this.perPage) {
+                this.loadEnd = true
+            }
+        })
     }
 
     static makeImgSrc(model: PostDto): string {

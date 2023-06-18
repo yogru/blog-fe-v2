@@ -2,6 +2,7 @@ import {observer} from "mobx-react-lite";
 import {PostListStore} from "@/domain/post/store/post-list-store";
 import ChipList from "@/components/base/chip/chip-list";
 
+
 export type Props = {
     postListStore: PostListStore
 }
@@ -16,7 +17,10 @@ const TagViewerObserver = observer((props: Props) => {
 
     return (
         <div>
-            <div>태그 리스트</div>
+
+            <div className={"mb-4 text-lg font-bold"}>
+                Tags
+            </div>
             <ChipList
                 onClickChip={onClickTag}
                 chips={props.postListStore.statisticsTagChipList}/>
