@@ -978,6 +978,10 @@ video {
   padding: 0.5rem;
 }
 
+.p-48 {
+  padding: 12rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -1036,6 +1040,14 @@ video {
   padding-left: 1rem;
 }
 
+.pl-48 {
+  padding-left: 12rem;
+}
+
+.pr-48 {
+  padding-right: 12rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -1063,6 +1075,11 @@ video {
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .font-bold {

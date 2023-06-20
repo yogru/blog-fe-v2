@@ -1,5 +1,5 @@
 import Repository from "@/domain/infra/repository";
-import restCall, { RestResponse} from "@/infra/rest-call";
+import restCall, {RestResponse} from "@/infra/rest-call";
 import {CustomError} from "@/infra/errors";
 
 
@@ -36,6 +36,24 @@ export interface PostDto {
     updatedAt: string
     tags: string []
     deleted: boolean
+}
+
+
+export interface SeriesDto {
+    id: string
+    title: string
+    writer: PostUserDto
+    body: string | null
+    postIds: string[]
+}
+
+export interface SeriesWithPostDto {
+    id: string
+    title: string
+    writer: PostUserDto
+    body: string | null
+    updateAt: string
+    posts: PostDto []
 }
 
 
@@ -111,6 +129,10 @@ export class PostRepository extends Repository {
         const url = this.getBaseUrl() + "/post/" + id
         const res = await restCall.get<PostRes>(url)
         if (res.ok) return res.data
+    }
+
+    async searchSeriesList(){
+        //
     }
 
     async getTagStatistics() {
