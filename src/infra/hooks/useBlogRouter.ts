@@ -42,6 +42,10 @@ export function useBlogRouter() {
         await goto("/", replace)
     }
 
+    async function gotoSeriesList(replace?: boolean) {
+        await goto("/series", replace)
+    }
+
 
     async function gotoEditPost(postId: string, replace?: boolean) {
         const url = "/"
@@ -65,6 +69,7 @@ export function useBlogRouter() {
 
     return {
         push, replace,
+        gotoSeriesList,
         gotoPost,
         gotoHome,
         gotoEditPost,

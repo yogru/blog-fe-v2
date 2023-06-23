@@ -13,7 +13,7 @@ export type Props = {
 
 const MenuObserver = observer((props: Props) => {
     const {theme, setTheme} = useMyTheme()
-    const {gotoHome, gotoWritePost, gotoLogin, gotoPostListTag} = useBlogRouter()
+    const {gotoHome, gotoWritePost, gotoLogin, gotoPostListTag, gotoSeriesList} = useBlogRouter()
     const loginStore = props.loginStore
 
     function toggleTheme(t: MyTheme) {
@@ -29,8 +29,9 @@ const MenuObserver = observer((props: Props) => {
 
     }
 
-    function onClickSeries(): Promise<void> {
-        return Promise.resolve()
+    async function onClickSeries(): Promise<void> {
+        await gotoSeriesList()
+
     }
 
     async function onClickLogo() {
