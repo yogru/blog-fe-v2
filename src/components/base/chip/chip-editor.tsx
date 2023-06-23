@@ -30,7 +30,7 @@ export default function ChipEditor(props: Props) {
     return (
         <div className={'flex flex-col w-full'}>
             <div>
-                <ChipList chips={props.chips} onDeleteChip={handleDeleteChip}/>
+                <ChipList blackList={["All"]} chips={props.chips} onDeleteChip={handleDeleteChip}/>
             </div>
             <div>
                 <input type={'text'}

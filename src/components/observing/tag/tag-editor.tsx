@@ -26,6 +26,7 @@ const TagEditorObserver = observer((props: Props) => {
 
     return (
         <ChipEditor
+
             chips={postService.tags.map(t => new ViewItem(t, t))}
             deleteChip={deleteChip}
             addChip={addChip}
