@@ -731,6 +731,10 @@ video {
   height: 24rem;
 }
 
+.h-\[28rem\] {
+  height: 28rem;
+}
+
 .h-auto {
   height: auto;
 }
@@ -753,11 +757,6 @@ video {
 
 .min-h-full {
   min-height: 100%;
-}
-
-.min-h-fit {
-  min-height: -moz-fit-content;
-  min-height: fit-content;
 }
 
 .min-h-screen {
@@ -1162,11 +1161,6 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .shadow {

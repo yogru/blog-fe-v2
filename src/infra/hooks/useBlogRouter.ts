@@ -67,6 +67,11 @@ export function useBlogRouter() {
         await goto(url, replace)
     }
 
+    async function gotoSeriesWrite(replace?: boolean) {
+        const url = "/series/write"
+        await goto(url, replace)
+    }
+
     return {
         push, replace,
         gotoSeriesList,
@@ -75,6 +80,7 @@ export function useBlogRouter() {
         gotoEditPost,
         gotoWritePost,
         gotoLogin,
-        gotoPostListTag
+        gotoPostListTag,
+        gotoSeriesWrite
     }
 }
