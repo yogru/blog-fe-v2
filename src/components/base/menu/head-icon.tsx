@@ -55,7 +55,7 @@ export function TagIcon(props: {
 }
 
 
-export function SeriesIcon(props: {
+export function SeriesListIcon(props: {
     onClick: () => Promise<void>
 }) {
     return (
@@ -104,11 +104,29 @@ export function LogoutIcon(props: {
 }) {
     return (
         <svg
-            onClick={async ()=>props.onClick()}
+            onClick={async () => props.onClick()}
             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
-             className="w-10 h-10">
+            className="w-10 h-10">
             <path strokeLinecap="round" strokeLinejoin="round"
                   d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+        </svg>
+    )
+}
+
+
+export function SeriesWriteIcon(props: {
+    onClick: () => Promise<void>
+}) {
+    return (
+        <svg
+            onClick={async () => props.onClick()}
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
+            className="w-10 h-10"
+        >
+            <path stroke="none" d="M0 0h24v24H0z"/>
+            <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18"/>
+            <line x1="13" y1="8" x2="15" y2="8"/>
+            <line x1="13" y1="12" x2="15" y2="12"/>
         </svg>
     )
 }

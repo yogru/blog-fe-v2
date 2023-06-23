@@ -5,10 +5,10 @@ import {MyTheme} from "@/infra/hooks/useMyTheme";
 import {
     ThemeToggleIcon,
     TagIcon,
-    SeriesIcon,
+    SeriesListIcon,
     WritePostIcon,
     UserIcon,
-    LogoutIcon
+    LogoutIcon, SeriesWriteIcon
 } from "@/components/base/menu/head-icon";
 import NanumMyeongjoFont from "@/components/base/font/nanum-myeongjo";
 
@@ -24,6 +24,7 @@ export type Props = {
     onClickWriteIcon: () => Promise<void>
     onClickUserIcon: () => Promise<void>
     onClickLogout: () => Promise<void>
+    onClickSeriesWriteIcon: () => Promise<void>
 }
 
 const rootCls: string = "sticky flex w-full h-20 border-b-2"
@@ -35,6 +36,7 @@ const seriesItemCls: string = itemCls + " " + "mr-4"
 const writeItemCls: string = itemCls + " " + "ml-4"
 const userItemCls: string = itemCls + " " + "ml-4"
 const logoutItemCls: string = itemCls + " " + "mr-4"
+const seriesWriteCls: string = itemCls + " " + "ml-2"
 
 export default function Menu(props: Props) {
     const logoString = props.logoString || "blog.kyb"
@@ -63,6 +65,13 @@ export default function Menu(props: Props) {
                 </div>
             }
 
+            {
+                props.isLogin &&
+                <div className={seriesWriteCls}>
+                    <SeriesWriteIcon onClick={props.onClickSeriesWriteIcon}/>
+                </div>
+            }
+
             <div className={themeItemCls}>
                 <ThemeToggleIcon theme={props.theme} onClick={props.onToggleTheme}/>
             </div>
@@ -72,7 +81,7 @@ export default function Menu(props: Props) {
             </div>
 
             <div className={seriesItemCls}>
-                <SeriesIcon onClick={props.onClickSeriesIcon}/>
+                <SeriesListIcon onClick={props.onClickSeriesIcon}/>
             </div>
             {
                 props.isLogin &&

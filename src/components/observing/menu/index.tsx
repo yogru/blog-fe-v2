@@ -51,6 +51,10 @@ const MenuObserver = observer((props: Props) => {
         await gotoHome()
     }
 
+    async function onClickSeriesWrite() {
+        console.log("아직 안만듬..")
+    }
+
     return (
         <Menu
             theme={theme}
@@ -63,6 +67,7 @@ const MenuObserver = observer((props: Props) => {
             onClickSeriesIcon={onClickSeries}
             onClickUserIcon={onClickLoginIcon}
             onClickLogout={onClickLogout}
+            onClickSeriesWriteIcon={onClickSeriesWrite}
         />
     )
 })
