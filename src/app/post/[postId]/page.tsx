@@ -1,7 +1,8 @@
 import {notFound} from "next/navigation";
 
-import postRepository from "@/domain/post/repositories";
+
 import PostViewerObserver from "@/components/template/post-viewer";
+import postRepository from "@/domain/post/repository/post-repository";
 
 type Props = {
     params: {

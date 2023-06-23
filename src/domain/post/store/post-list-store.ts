@@ -1,23 +1,26 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import postRepository, {PostDto, SearchPostList, TagStatisticsDto} from "@/domain/post/repositories";
+
 import {ViewItem} from "@/infra/generic-type";
+import PostModel from "@/domain/post/model/post-model";
+import TagStatisticsModel from "@/domain/post/model/tag-statistics-model";
+import postRepository from "@/domain/post/repository/post-repository";
 
 
 export type PostListStoreInitContext = {
-    posts: PostDto[],
-    tagStatisticsList: TagStatisticsDto[],
+    posts: PostModel[],
+    tagStatisticsList: TagStatisticsModel[],
     page: number,
     perPage: number,
     forceClientLoad: boolean
 }
 
 export class PostListStore {
-    constructor(public posts: PostDto[] = [],
+    constructor(public posts: PostModel[] = [],
                 public page: number = 1,
                 public perPage: number = 10,
                 public loadEnd: boolean = false,
                 public isInit: boolean = false,
-                public tagStatisticsList: TagStatisticsDto[] = [],
+                public tagStatisticsList: TagStatisticsModel[] = [],
                 public selectedTag: string[] = []
     ) {
         makeAutoObservable(this)
@@ -86,7 +89,7 @@ export class PostListStore {
         })
     }
 
-    static makeImgSrc(model: PostDto): string {
+    static makeImgSrc(model: PostModel): string {
         const imageUrl = model.body.match(/!\[[^\]]*\]\((.*?)\)/)
         if (imageUrl === null) return "/images/login-bg.jpg"
         return imageUrl[1]

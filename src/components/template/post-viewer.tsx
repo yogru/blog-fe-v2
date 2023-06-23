@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import {useState} from "react";
 
-import {PostDto} from "@/domain/post/repositories";
 import {showJavaLocalDataToYYYYMMDD} from "@/infra/time-string";
 import ChipList from "@/components/base/chip/chip-list";
 import {ViewItem} from "@/infra/generic-type";
@@ -16,9 +15,10 @@ import {PostEditStore} from "@/domain/post/store/post-edit";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 import {useLoginStore} from "@/domain/user/hooks";
+import PostModel from "@/domain/post/model/post-model";
 
 type Props = {
-    post: PostDto
+    post: PostModel
 }
 
 const NoSSrPostViewer = dynamic(() => import("@/components/base/toast/viewer"), {ssr: false})

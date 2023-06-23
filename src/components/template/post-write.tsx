@@ -2,11 +2,9 @@
 
 
 import MenuObserver from "@/components/observing/menu";
-
-
 import {useLoginStore} from "@/domain/user/hooks";
 import PostWriterObserver from "@/components/observing/post/writer";
-import {usePostWriteStore} from "@/domain/post/hooks";
+import {usePostWriteStore} from "@/domain/post/hook/hooks";
 import NoAuthorized from "@/components/base/no-authorized";
 import LoadingBox from "@/components/base/loading-box";
 import useMyTimer from "@/infra/hooks/useMyTimer";

@@ -1,9 +1,9 @@
-import postRepository, {PostDto} from "@/domain/post/repositories";
 import {makeAutoObservable} from "mobx";
 import userRepository from "@/domain/user/repositories";
 import {CustomError} from "@/infra/errors";
 import {Result} from "@/infra/generic-type";
-
+import PostModel from "@/domain/post/model/post-model";
+import postRepository from "@/domain/post/repository/post-repository";
 
 export class PostEditStore {
     postId: string
@@ -14,7 +14,7 @@ export class PostEditStore {
     tags: string[]
     body: string
 
-    constructor(postDto: PostDto) {
+    constructor(postDto: PostModel) {
         this.postId = postDto.id
         this.title = postDto.title
         this.writerName = postDto.writer.writerName
@@ -24,7 +24,6 @@ export class PostEditStore {
         this.body = postDto.body
         makeAutoObservable(this)
     }
-
 
     async deletePost(): Promise<Result<null>> {
         try {

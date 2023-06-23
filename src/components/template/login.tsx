@@ -1,4 +1,5 @@
 "use client"
+
 import {SnackbarProvider} from "notistack";
 
 import {useLoginStore} from "@/domain/user/hooks";

@@ -1,8 +1,9 @@
 import {makeAutoObservable, runInAction} from "mobx"
-import postRepository from "@/domain/post/repositories";
 import userRepository from "@/domain/user/repositories";
 import {CustomError} from "@/infra/errors";
 import {Result} from "@/infra/generic-type";
+import postRepository from "@/domain/post/repository/post-repository";
+import tagRepository from "@/domain/post/repository/tag-repository";
 
 
 export class PostWriteStore {
@@ -31,7 +32,7 @@ export class PostWriteStore {
         try {
             checkNewTag(tagName)
             const accessKey = userRepository.getAccessKey()
-            const res = await postRepository.addTag(tagName, accessKey)
+            const res = await tagRepository.addTag(tagName, accessKey)
             res.ok && runInAction(() => {
                 this.tags.push(tagName)
             })
@@ -53,7 +54,7 @@ export class PostWriteStore {
         try {
             checkDeleteTag(tagName)
             const accessKey = userRepository.getAccessKey()
-            await postRepository.deleteTag(tagName, accessKey)
+            await tagRepository.deleteTag(tagName, accessKey)
             runInAction(removeTag)
             return {success: true, message: "태그 삭제 성공 했습니다."}
         } catch (e) {
