@@ -1,4 +1,4 @@
-import {PostUserValue} from "@/domain/post/model/post-user-value";
+import {PostUserValue} from "@/domain/post/model/PostUserValue";
 
 export default interface SeriesModel {
     id: string

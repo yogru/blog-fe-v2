@@ -1,5 +1,5 @@
 import {observer} from "mobx-react-lite";
-import {PostListStore} from "@/domain/post/store/post-list-store";
+import {PostListStore} from "@/domain/post/store/PostListStore";
 import ChipList from "@/components/base/chip/chip-list";
 
 

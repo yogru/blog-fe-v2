@@ -2,8 +2,8 @@ import {makeAutoObservable, runInAction} from "mobx"
 import userRepository from "@/domain/user/repositories";
 import {CustomError} from "@/infra/errors";
 import {Result} from "@/infra/generic-type";
-import postRepository from "@/domain/post/repository/post-repository";
-import tagRepository from "@/domain/post/repository/tag-repository";
+import postRepository from "@/domain/post/repository/PostRepository";
+import tagRepository from "@/domain/post/repository/TagRepository";
 
 
 export class PostWriteStore {

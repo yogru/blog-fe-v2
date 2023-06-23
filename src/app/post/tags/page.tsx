@@ -1,6 +1,6 @@
 import PostTagListTemplate from "@/components/template/post-list-tag";
-import postRepository from "@/domain/post/repository/post-repository";
-import tagRepository from "@/domain/post/repository/tag-repository";
+import postRepository from "@/domain/post/repository/PostRepository";
+import tagRepository from "@/domain/post/repository/TagRepository";
 
 
 export default async function PostListTag() {

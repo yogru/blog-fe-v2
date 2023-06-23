@@ -1,13 +1,12 @@
 import Repository from "@/infra/repository";
 import restCall, {RestResponse} from "@/infra/rest-call";
 import {CustomError} from "@/infra/errors";
-import CreatePostRequest from "@/domain/post/repository/request/create-post-request";
-import CreatePostResponse from "@/domain/post/repository/response/create-post-response";
-import DeletePostRequest from "@/domain/post/repository/request/delete-post-request";
-import SearchPostRequest from "@/domain/post/repository/request/search-post-request";
-import PostListResponse from "@/domain/post/repository/response/post-list-response";
-import PostModel from "@/domain/post/model/post-model";
-import PostResponse from "@/domain/post/repository/response/post-response";
+import CreatePostRequest from "@/domain/post/repository/request/CreatePostRequest";
+import CreatePostResponse from "@/domain/post/repository/response/CreatePostResponse";
+import DeletePostRequest from "@/domain/post/repository/request/DeletePostRequest";
+import SearchPostRequest from "@/domain/post/repository/request/SearchPostRequest";
+import PostListResponse from "@/domain/post/repository/response/PostListResponse";
+import PostResponse from "@/domain/post/repository/response/PostResponse";
 
 
 class FailCreatePost extends CustomError {

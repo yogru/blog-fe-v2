@@ -11,11 +11,11 @@ import Footer from "../base/footer";
 import MenuObserver from "../observing/menu";
 
 import useMyTimer from "@/infra/hooks/useMyTimer";
-import {PostEditStore} from "@/domain/post/store/post-edit";
+import {PostEditStore} from "@/domain/post/store/PostEditStore";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
-import {useLoginStore} from "@/domain/user/hooks";
-import PostModel from "@/domain/post/model/post-model";
+import {useLoginStore} from "@/domain/user/hook/hooks";
+import PostModel from "@/domain/post/model/PostModel";
 
 type Props = {
     post: PostModel

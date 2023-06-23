@@ -1,7 +1,7 @@
 import Repository from "@/infra/repository";
 import restCall from "@/infra/rest-call";
 import {CustomError} from "@/infra/errors";
-import TagStatisticsResponse from "@/domain/post/repository/response/tag-statistics-response";
+import TagStatisticsResponse from "@/domain/post/repository/response/TagStatisticsResponse";
 
 export class TagRepository extends Repository {
     async addTag(tag: string, accessKey: string) {

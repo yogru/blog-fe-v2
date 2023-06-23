@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import SeriesModel from "@/domain/post/model/series-model";
+import SeriesModel from "@/domain/post/model/SeriesModel";
 
 export class SeriesListStore {
 

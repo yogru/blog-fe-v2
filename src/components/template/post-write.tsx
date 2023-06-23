@@ -2,12 +2,12 @@
 
 
 import MenuObserver from "@/components/observing/menu";
-import {useLoginStore} from "@/domain/user/hooks";
+import {useLoginStore} from "@/domain/user/hook/hooks";
 import PostWriterObserver from "@/components/observing/post/writer";
-import {usePostWriteStore} from "@/domain/post/hook/hooks";
 import NoAuthorized from "@/components/base/no-authorized";
 import LoadingBox from "@/components/base/loading-box";
 import useMyTimer from "@/infra/hooks/useMyTimer";
+import {usePostWriteStore} from "@/domain/post/hook/usePostWriteStore";
 
 export default function PostWriteTemplate() {
     const {loginStore} = useLoginStore()

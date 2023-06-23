@@ -2,7 +2,7 @@
 
 import {SnackbarProvider} from "notistack";
 
-import {useLoginStore} from "@/domain/user/hooks";
+import {useLoginStore} from "@/domain/user/hook/hooks";
 import LoginBoxObserver from "@/components/observing/login/login-box";
 
 

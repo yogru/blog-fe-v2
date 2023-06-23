@@ -2,7 +2,7 @@
 import {observer} from "mobx-react-lite";
 
 import Card from "@/components/base/card/card";
-import {PostListStore} from "@/domain/post/store/post-list-store";
+import {PostListStore} from "@/domain/post/store/PostListStore";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 
 

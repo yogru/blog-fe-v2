@@ -2,7 +2,7 @@
 
 
 import MenuObserver from "@/components/observing/menu";
-import {useLoginStore} from "@/domain/user/hooks";
+import {useLoginStore} from "@/domain/user/hook/hooks";
 import TextCard from "@/components/base/card/text-card";
 
 export  type Props = {}

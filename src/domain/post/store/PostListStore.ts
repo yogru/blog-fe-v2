@@ -1,9 +1,9 @@
 import {makeAutoObservable, runInAction} from "mobx";
 
 import {ViewItem} from "@/infra/generic-type";
-import PostModel from "@/domain/post/model/post-model";
-import TagStatisticsModel from "@/domain/post/model/tag-statistics-model";
-import postRepository from "@/domain/post/repository/post-repository";
+import PostModel from "@/domain/post/model/PostModel";
+import TagStatisticsModel from "@/domain/post/model/TagStatisticsModel";
+import postRepository from "@/domain/post/repository/PostRepository";
 
 
 export type PostListStoreInitContext = {

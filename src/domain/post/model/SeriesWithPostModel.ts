@@ -1,5 +1,5 @@
-import {PostUserValue} from "@/domain/post/model/post-user-value";
-import {PostModel} from "@/domain/post/model/post-model";
+import {PostUserValue} from "@/domain/post/model/PostUserValue";
+import {PostModel} from "@/domain/post/model/PostModel";
 
 export default interface SeriesWithPostModel {
     id: string

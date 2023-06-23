@@ -1,6 +1,6 @@
 import {observer} from "mobx-react-lite";
 
-import {PostWriteStore} from "@/domain/post/store/post-write";
+import {PostWriteStore} from "@/domain/post/store/PostWriteStore";
 import ChipEditor from "@/components/base/chip/chip-editor";
 import {ViewItem} from "@/infra/generic-type";
 import useMySnackbar from "@/infra/hooks/useMySnackbar";

@@ -2,8 +2,8 @@ import {makeAutoObservable} from "mobx";
 import userRepository from "@/domain/user/repositories";
 import {CustomError} from "@/infra/errors";
 import {Result} from "@/infra/generic-type";
-import PostModel from "@/domain/post/model/post-model";
-import postRepository from "@/domain/post/repository/post-repository";
+import PostModel from "@/domain/post/model/PostModel";
+import postRepository from "@/domain/post/repository/PostRepository";
 
 export class PostEditStore {
     postId: string

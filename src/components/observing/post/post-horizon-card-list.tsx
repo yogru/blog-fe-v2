@@ -1,7 +1,7 @@
 import {observer} from "mobx-react-lite";
 
 
-import {PostListStore} from "@/domain/post/store/post-list-store";
+import {PostListStore} from "@/domain/post/store/PostListStore";
 import HorizonCard from "@/components/base/card/horizon-card";
 import {useBlogRouter} from "@/infra/hooks/useBlogRouter";
 

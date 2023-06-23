@@ -1,5 +1,5 @@
 import HomeTemplate from "@/components/template/home";
-import postRepository from "@/domain/post/repository/post-repository";
+import postRepository from "@/domain/post/repository/PostRepository";
 
 export default async function Home() {
     const postList = await postRepository.searchPostList({curPage: 1, perPage: 10})
