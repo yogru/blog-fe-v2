@@ -3,7 +3,7 @@
 
 import MenuObserver from "@/components/observing/menu";
 import {useLoginStore} from "@/domain/user/hook/hooks";
-import PostWriterObserver from "@/components/observing/post/writer";
+import PostWriterObserver from "@/components/observing/post/post-writer";
 import NoAuthorized from "@/components/base/no-authorized";
 import LoadingBox from "@/components/base/loading-box";
 import useMyTimer from "@/infra/hooks/useMyTimer";

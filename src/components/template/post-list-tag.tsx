@@ -2,11 +2,11 @@
 
 import {useLoginStore} from "@/domain/user/hook/hooks";
 import MenuObserver from "@/components/observing/menu";
-import TagViewerObserver from "@/components/observing/post/tag-viewer";
-import PostListFooterObserver from "@/components/observing/footer/post-list-footer";
+import TagViewerObserver from "@/components/observing/tag/tag-viewer";
 import {PostListStoreInitContext} from "@/domain/post/store/PostListStore";
 import PostHorizonCardList from "@/components/observing/post/post-horizon-card-list";
 import {usePostListStoreWithScroll} from "@/domain/post/hook/usePostListStoreWithScroll";
+import Footer from "../observing/footer";
 
 export type Props = {
     initCtx: PostListStoreInitContext
@@ -15,7 +15,6 @@ export type Props = {
 export default function PostTagListTemplate(props: Props) {
     const {loginStore} = useLoginStore()
     const {postListStore} = usePostListStoreWithScroll(props.initCtx)
-
     return (
         <>
             <div>
@@ -31,7 +30,7 @@ export default function PostTagListTemplate(props: Props) {
             </div>
 
             <div>
-                <PostListFooterObserver postListStore={postListStore}/>
+                <Footer isEnd={postListStore.loadEnd} />
             </div>
         </>
     )

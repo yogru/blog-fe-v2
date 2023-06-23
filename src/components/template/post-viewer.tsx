@@ -7,7 +7,7 @@ import {showJavaLocalDataToYYYYMMDD} from "@/infra/time-string";
 import ChipList from "@/components/base/chip/chip-list";
 import {ViewItem} from "@/infra/generic-type";
 import LoadingBox from "../base/loading-box";
-import Footer from "../base/footer";
+import Footer from "../observing/footer";
 import MenuObserver from "../observing/menu";
 
 import useMyTimer from "@/infra/hooks/useMyTimer";
@@ -170,7 +170,7 @@ export default function PostViewerObserver(props: Props) {
             </div>
 
             <div>
-                <Footer/>
+                <Footer isEnd={true}/>
             </div>
         </div>
     )

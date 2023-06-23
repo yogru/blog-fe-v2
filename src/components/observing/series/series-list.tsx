@@ -1,12 +1,32 @@
-"use client"
-
-
-import MenuObserver from "@/components/observing/menu";
-import {useLoginStore} from "@/domain/user/hook/hooks";
+import {observer} from "mobx-react-lite";
+import {SeriesListStore} from "@/domain/post/store/SeriesListStore";
 import TextCard from "@/components/base/card/text-card";
 
-export  type Props = {}
+export type Props = {
+    seriesListStore: SeriesListStore
+}
 
+const SeriesListObserver = observer((props: Props) => {
+    const store = props.seriesListStore
+
+    async function onClickSeriesTitle(seriesId: string) {
+        console.log(seriesId)
+    }
+
+    return (
+        <div className={"flex flex-col mt-8 mb-4"}>
+            {store.seriesList.map(t =>
+                <div key={t.id} className={"mr-auto ml-auto mt-1 mb-4 max-w-[48rem]"}>
+                    <TextCard
+                        onClickTitle={onClickSeriesTitle}
+                        cardId={t.id} subTitle={t.body || ''} title={t.title}/>
+                </div>
+            )}
+        </div>
+    )
+})
+
+export default SeriesListObserver
 
 const testCards = [
     {
@@ -45,34 +65,3 @@ const testCards = [
         subTitle: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
     },
 ]
-
-
-export default function SeriesTemplate(props: Props) {
-    const {loginStore} = useLoginStore()
-
-    async function onClickSeriesTitle(seriesId: string) {
-        console.log(seriesId)
-    }
-
-    return (
-        <>
-            <div>
-                <MenuObserver loginStore={loginStore}/>
-            </div>
-
-            <div className={"flex mt-12 text-5xl justify-center"}>
-                시리즈 목록
-            </div>
-
-            <div className={"flex flex-col mt-8 mb-4"}>
-                {testCards.map(t =>
-                    <div key={t.cardId} className={"mr-auto ml-auto mt-1 mb-4 max-w-[48rem]"}>
-                        <TextCard
-                            onClickTitle={onClickSeriesTitle}
-                            cardId={t.cardId} subTitle={t.subTitle} title={t.title}/>
-                    </div>
-                )}
-            </div>
-        </>
-    )
-}

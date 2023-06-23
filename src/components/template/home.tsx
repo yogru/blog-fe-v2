@@ -4,9 +4,9 @@
 import MenuObserver from "@/components/observing/menu"
 import PostCardListObserver from "@/components/observing/post/post-card-list";
 import {useLoginStore} from "@/domain/user/hook/hooks";
-import PostListFooterObserver from "@/components/observing/footer/post-list-footer";
 import {PostListStoreInitContext} from "@/domain/post/store/PostListStore";
 import {usePostListStoreWithScroll} from "@/domain/post/hook/usePostListStoreWithScroll";
+import Footer from "../observing/footer";
 
 
 type Props = {
@@ -28,7 +28,7 @@ export default function HomeTemplate(props: Props) {
             </div>
 
             <div>
-                <PostListFooterObserver postListStore={postListStore}/>
+                <Footer isEnd={postListStore.loadEnd}/>
             </div>
         </>
     )
