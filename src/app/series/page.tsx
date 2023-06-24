@@ -8,6 +8,7 @@ export default async function SeriesPage() {
         page,
         perPage
     })
+    console.log(seriesRes)
     return (
         <SeriesListTemplate seriesListInitContext={{
             perPage,

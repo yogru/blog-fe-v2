@@ -1,45 +1,54 @@
-import {useState} from 'react'
-import {Combobox} from '@headlessui/react'
+import React, {useEffect, useRef} from 'react'
+import {Autocomplete} from "@mui/material";
+import TextField from "@mui/material/TextField";
 import {ViewItem} from "@/infra/generic-type";
 
+export interface AutocompleteProps {
+    noOptionsText?: string
+    load: (keyword: string) => Promise<ViewItem[]>
+    onSelect: (item: ViewItem) => void
+}
 
-const people = [
-    'Durward Reynolds',
-    'Kenton Towne',
-    'Therese Wunsch',
-    'Benedict Kessler',
-    'Katelyn Rohan',
-]
 
-export default function MyCombobox() {
-    const [selectedPerson, setSelectedPerson] = useState(people[0])
-    const [query, setQuery] = useState('')
+export default function AutocompleteBasic(props: AutocompleteProps) {
+    const [keyword, setKeyword] = React.useState<string>('')
+    const [opt, setOpt] = React.useState<ViewItem[]>([])
+    const autoClear = useRef(null);
 
-    const filteredPeople =
-        query === ''
-            ? people
-            : people.filter((person) => {
-                return person.toLowerCase().includes(query.toLowerCase())
-            })
+    useEffect(() => {
+        props.load(keyword).then((ret) => {
+            setOpt(ret)
+        })
+    }, [keyword, props])
+
 
     return (
-        <Combobox value={selectedPerson} onChange={setSelectedPerson}>
-            <div className={"w-full flex flex-col"}>
-                <div className={"w-full"}>
-                    <Combobox.Input className={"w-full rounded h-12 border-2 p-4"}
-                                    onChange={(event) => setQuery(event.target.value)}/>
-                </div>
-
-                <div>
-                    <Combobox.Options className={"flex flex-col"}>
-                        {filteredPeople.map((person) => (
-                            <Combobox.Option key={person} value={person}>
-                                {person}
-                            </Combobox.Option>
-                        ))}
-                    </Combobox.Options>
-                </div>
-            </div>
-        </Combobox>
-    )
+        <Autocomplete
+            inputValue={keyword}
+            ref={autoClear}
+            fullWidth
+            disablePortal
+            id={"auto_basic"}
+            isOptionEqualToValue={(opt1, opt2) => opt1.id === opt2.id}
+            getOptionLabel={(option) => option.viewValue}
+            onInputChange={(event, value, reason) => {
+                if (reason === 'reset' || reason === 'clear') {
+                    setKeyword('')
+                } else {
+                    setKeyword(value)
+                }
+            }}
+            onChange={(event, value, reason) => {
+                if (reason === "selectOption") {
+                    props.onSelect(value as ViewItem)
+                    setKeyword('')
+                }
+            }}
+            options={opt}
+            noOptionsText={props.noOptionsText || "목록이 존재 하지 않습니다."}
+            renderInput={(params) => <TextField
+                {...params}
+            />}
+        />
+    );
 }

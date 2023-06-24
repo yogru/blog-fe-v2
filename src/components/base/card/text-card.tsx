@@ -12,13 +12,13 @@ export default function TextCard(props: Props) {
     }
 
     return (
-        <div className={"flex flex-col p-2 pb-12 border-b-2"}>
+        <div className={"flex flex-col p-2 pb-10 border-b-2"}>
             <div onClick={async () => await onClickTitle()}
                  className={"hover:cursor-pointer line-clamp-1 text-3xl font-bold"}>
                 {props.title}
             </div>
 
-            <div className={"line-clamp-1 text-xs"}>
+            <div className={"line-clamp-1 mt-2 text-xs"}>
                 {props.subTitle}
             </div>
         </div>
